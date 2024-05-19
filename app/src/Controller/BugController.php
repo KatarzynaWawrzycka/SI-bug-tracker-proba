@@ -6,6 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Bug;
+use App\Entity\Category;
 use App\Form\Type\BugType;
 use App\Service\BugService;
 use App\Service\BugServiceInterface;

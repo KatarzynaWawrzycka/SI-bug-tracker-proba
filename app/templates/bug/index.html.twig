@@ -20,7 +20,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.description'|trans, 'bug.description') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'bug.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'bug.updatedAt') }}</th>
-
+                <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'category.title') }}</th>
 
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
@@ -33,20 +33,23 @@
                     <td>{{ bug.description }}</td>
                     <td>{{ bug.createdAt|format_date('long') }}</td>
                     <td>{{ bug.updatedAt|format_date('long') }}</td>
+                    <td>{{ bug.category.title }}</td>
                     <td>
-                        <a href="{{ url('bug_show', {id: bug.id}) }}" title="{{ 'action.show'|trans }}">
-                            {{ 'action.show'|trans }}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ url('bug_edit', {id: bug.id}) }}" title="{{ 'action.edit'|trans }}">
-                            {{ 'action.edit'|trans }}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ url('bug_delete', {id: bug.id}) }}" title="{{ 'action.delete'|trans }}">
-                            {{ 'action.delete'|trans }}
-                        </a>
+                        <p>
+                            <a href="{{ url('bug_show', {id: bug.id}) }}" title="{{ 'action.show'|trans }}">
+                                {{ 'action.show'|trans }}
+                            </a>
+                        </p>
+                        <p>
+                            <a href="{{ url('bug_edit', {id: bug.id}) }}" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                        </p>
+                        <p>
+                            <a href="{{ url('bug_delete', {id: bug.id}) }}" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        </p>
                     </td>
                 </tr>
             {% endfor %}
