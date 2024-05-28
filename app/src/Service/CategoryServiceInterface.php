@@ -9,7 +9,7 @@ use App\Entity\Category;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
- * Interface CategoryServiceInterface.
+ * Interface BugServiceInterface.
  */
 interface CategoryServiceInterface
 {
@@ -25,4 +25,14 @@ interface CategoryServiceInterface
     public function save(Category $category): void;
 
     public function delete(Category $category): void;
+
+    /**
+     * Can Category be deleted?
+     *
+     * @param Category $category Category entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Category $category): bool;
+
 }

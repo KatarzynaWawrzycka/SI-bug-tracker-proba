@@ -16,12 +16,11 @@
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'bug.id') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'bug.title') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.description'|trans, 'bug.description') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'bug.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'bug.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'category.title') }}</th>
-
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'bug.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.description'|trans, 'bug.description') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.tags'|trans, 'bug.tags') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -29,11 +28,15 @@
             {% for bug in pagination.items %}
                 <tr>
                     <td>{{ bug.id }}</td>
-                    <td>{{ bug.title }}</td>
-                    <td>{{ bug.description }}</td>
                     <td>{{ bug.createdAt|format_date('long') }}</td>
                     <td>{{ bug.updatedAt|format_date('long') }}</td>
-                    <td>{{ bug.category.title }}</td>
+                    <td>{{ bug.title }}</td>
+                    <td>{{ bug.description }}</td>
+                    <td>
+                        {%  for tag in bug.tags %}
+                            {{ tag.title }}
+                        {% endfor %}
+                    </td>
                     <td>
                         <p>
                             <a href="{{ url('bug_show', {id: bug.id}) }}" title="{{ 'action.show'|trans }}">
@@ -62,7 +65,10 @@
 
     {% else %}
         <p>
-            {{ 'message.empty_list'|trans }}
+            {% include 'default/_single_alert_message.html.twig' with {
+                type: 'warning',
+                message: 'message.empty_list'|trans
+            } %}
         </p>
     {% endif %}
 {% endblock %}

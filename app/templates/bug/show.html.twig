@@ -10,14 +10,20 @@
         <dl class="dl-horizontal">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ bug.id }}</dd>
-            <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  bug.title }}</dd>
-            <dt>{{ 'label.description'|trans }}</dt>
-            <dd>{{  bug.description }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ bug.createdAt|format_date('long') }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
             <dd>{{ bug.updatedAt|format_date('long') }}</dd>
+            <dt>{{ 'label.title'|trans }}</dt>
+            <dd>{{  bug.title }}</dd>
+            <dt>{{ 'label.description'|trans }}</dt>
+            <dd>{{  bug.description }}</dd>
+            <dt>{{ 'label.tags'|trans }}</dt>
+            <dd>
+                    {%  for tag in bug.tags %}
+                        {{ tag.title }}
+                    {% endfor %}
+            </dd>
         </dl>
         <p>
             <a href="{{ url('bug_index') }}" title="{{ 'action.back_to_list'|trans }}">

@@ -5,7 +5,10 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Category;
 use App\Entity\Bug;
+use App\Form\DataTransformer\TagsDataTransformer;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +19,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class BugType extends AbstractType
 {
+    /**
+     * Constructor.
+     *
+     * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
+     */
+    public function __construct(private readonly TagsDataTransformer $tagsDataTransformer)
+    {
+    }
+
     /**
      * Builds the form.
      *
@@ -35,17 +47,35 @@ class BugType extends AbstractType
             [
                 'label' => 'label.title',
                 'required' => true,
-                'attr' => ['max_length' => 64],
-            ]);
-
+                'attr' => ['max_length' => 255],
+            ]
+        );
         $builder->add(
-            'description',
+            'category',
+            EntityType::class,
+            [
+                'class' => Category::class,
+                'choice_label' => function ($category): string {
+                    return $category->getTitle();
+                },
+                'label' => 'label.category',
+                'placeholder' => 'label.none',
+                'required' => true,
+            ]
+        );
+        $builder->add(
+            'tags',
             TextType::class,
             [
-                'label' => 'label.description',
-                'required' => true,
-                'attr' => ['max_length' => 255],
-            ]);
+                'label' => 'label.tags',
+                'required' => false,
+                'attr' => ['max_length' => 128],
+            ]
+        );
+
+        $builder->get('tags')->addModelTransformer(
+            $this->tagsDataTransformer
+        );
     }
 
     /**

@@ -1,19 +1,19 @@
 <?php
 /**
- * Bug service.
+ * Tag service.
  */
 
 namespace App\Service;
 
-use App\Entity\Bug;
-use App\Repository\BugRepository;
+use App\Entity\Tag;
+use App\Repository\TagRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * Class BugService.
+ * Class TagService.
  */
-class BugService implements BugServiceInterface
+class TagService implements TagServiceInterface
 {
     /**
      * Items per page.
@@ -29,10 +29,10 @@ class BugService implements BugServiceInterface
     /**
      * Constructor.
      *
-     * @param BugRepository     $bugRepository Bug repository
+     * @param TagRepository     $tagRepository Tag repository
      * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(private readonly BugRepository $bugRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly TagRepository $tagRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
@@ -46,7 +46,7 @@ class BugService implements BugServiceInterface
     public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->bugRepository->queryAll(),
+            $this->tagRepository->queryAll(),
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE
         );
@@ -55,25 +55,27 @@ class BugService implements BugServiceInterface
     /**
      * Save entity.
      *
-     * @param Bug $bug Bug entity
+     * @param Tag $tag Tag entity
      */
-    public function save(Bug $bug): void
+    public function save(Tag $tag): void
     {
-        $bug->setCreatedAt(new \DateTimeImmutable());
-        if (null !== $bug->getId()) {
-            $bug->setUpdatedAt(new \DateTimeImmutable());
-        }
-        $this->bugRepository->save($bug);
+        $this->tagRepository->save($tag);
+    }
+
+    public function delete(Tag $tag): void
+    {
+        $this->tagRepository->delete($tag);
     }
 
     /**
-     * Delete entity.
+     * Find by title.
      *
-     * @param Bug $bug Bug entity
+     * @param string $title Tag title
+     *
+     * @return Tag|null Tag entity
      */
-    public function delete(Bug $bug): void
+    public function findOneByTitle(string $title): ?Tag
     {
-        $this->bugRepository->delete($bug);
+        return $this->tagRepository->findOneByTitle($title);
     }
-
 }
