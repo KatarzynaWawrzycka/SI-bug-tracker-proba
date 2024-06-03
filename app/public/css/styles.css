@@ -1,0 +1,62 @@
+.create-bug-button {
+    margin-bottom: 20px;
+}
+
+.bug-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bug-item {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #080f38;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.bug-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 80%;
+}
+
+.bug-updated-at,
+.bug-details,
+.bug-created-at,
+.bug-category,
+.bug-description,
+.bug-tags {
+    text-align: left;
+}
+
+.bug-id,
+.bug-title {
+    font-weight: bold;
+}
+
+.bug-details {
+    display: flex;
+    gap: 10px;
+}
+
+.bug-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 20%;
+}
+
+.bug-actions p {
+    margin: 0;
+}
+
+.label {
+    color: gray;
+    font-style: italic;
+    margin-right: 5px;
+}
