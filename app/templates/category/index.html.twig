@@ -8,50 +8,47 @@
     <h1>{{ 'title.category_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
+        <div class="text-left create-category-button">
+            <a href="{{ url('category_create') }}" class="btn btn-primary" title="{{ 'action.create_new_category'|trans }}">
+                {{ 'action.create_new_category'|trans }}
+            </a>
+        </div>
+
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'category.id') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'category.createdAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'category.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.title') }}</th>
-
-
-                <th>{{ 'label.actions'|trans }}</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div class="category-list">
             {% for category in pagination.items %}
-                <tr>
-                    <td>{{ category.id }}</td>
-                    <td>{{ category.createdAt|format_date('long') }}</td>
-                    <td>{{ category.updatedAt|format_date('long') }}</td>
-                    <td>{{ category.title }}</td>
-                    <td>
+                <div class="category-item">
+                    <div class="category-info">
+                        <div class="category-updated-at"><span class="label">Updated at:</span> {{ category.updatedAt|format_date('long') }}</div>
+                        <div class="category-details">
+                            <span class="category-id"><span class="label">ID:</span> {{ category.id }}</span>
+                            <span class="category-title"><span class="label">Title:</span> {{ category.title }}</span>
+                        </div>
+                        <div class="category-created-at"><span class="label">Created at:</span> {{ category.createdAt|format_date('long') }}</div>
+                    </div>
+                    <div class="category-actions">
                         <p>
-                            <a href="{{ url('category_show', {id: category.id}) }}" title="{{ 'action.show'|trans }}">
+                            <a href="{{ url('category_show', {id:category.id}) }}" class="btn btn-primary" title="{{ 'action.show|trans' }}">
                                 {{ 'action.show'|trans }}
                             </a>
                         </p>
                         <p>
-                            <a href="{{ url('category_edit', {id: category.id}) }}" title="{{ 'action.edit'|trans }}">
+                            <a href="{{ url('category_edit', {id:category.id}) }}" class="btn btn-primary" title="{{ 'action.edit|trans' }}">
                                 {{ 'action.edit'|trans }}
                             </a>
                         </p>
                         <p>
-                            <a href="{{ url('category_delete', {id: category.id}) }}" title="{{ 'action.delete'|trans }}">
+                            <a href="{{ url('category_delete', {id:category.id}) }}" class="btn btn-primary" title="{{ 'action.delete|trans' }}">
                                 {{ 'action.delete'|trans }}
                             </a>
                         </p>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             {% endfor %}
-            </tbody>
-        </table>
+        </div>
 
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}

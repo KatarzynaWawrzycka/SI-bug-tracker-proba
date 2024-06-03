@@ -63,7 +63,7 @@ class TagRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
@@ -75,7 +75,7 @@ class TagRepository extends ServiceEntityRepository
      */
     public function save(Tag $tag): void
     {
-        //assert($this->_em instanceof EntityManager);
+        // assert($this->_em instanceof EntityManager);
         $this->_em->persist($tag);
         $this->_em->flush();
     }
@@ -90,7 +90,7 @@ class TagRepository extends ServiceEntityRepository
      */
     public function delete(Tag $tag): void
     {
-        //assert($this->_em instanceof EntityManager);
+        // assert($this->_em instanceof EntityManager);
         $this->_em->remove($tag);
         $this->_em->flush();
     }

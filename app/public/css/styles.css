@@ -1,14 +1,19 @@
+.create-category-button,
 .create-bug-button {
     margin-bottom: 20px;
 }
 
-.bug-list {
+.category-list,
+.bug-list,
+.tag-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.bug-item {
+.category-item,
+.bug-item,
+.tag-item {
     display: flex;
     justify-content: space-between;
     border: 1px solid #080f38;
@@ -16,33 +21,49 @@
     border-radius: 5px;
 }
 
-.bug-info {
+.category-info,
+.bug-info,
+.tag-info {
     display: flex;
     flex-direction: column;
     gap: 5px;
     width: 80%;
 }
 
+.category-updated-at,
+.category-details,
+.category-created-at,
 .bug-updated-at,
 .bug-details,
 .bug-created-at,
 .bug-category,
 .bug-description,
-.bug-tags {
+.bug-tags,
+.tag-updated-at,
+.tag-details,
+.tag-created-at {
     text-align: left;
 }
 
+.category-id,
+.category-title,
 .bug-id,
-.bug-title {
+.bug-title,
+.tag-id,
+.tag-title {
     font-weight: bold;
 }
 
-.bug-details {
+.category-details,
+.bug-details,
+.tag-details {
     display: flex;
     gap: 10px;
 }
 
-.bug-actions {
+.category-actions,
+.bug-actions,
+.tag-actions {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,7 +72,9 @@
     width: 20%;
 }
 
-.bug-actions p {
+.category-actions p,
+.bug-actions p,
+.tag-actions p {
     margin: 0;
 }
 

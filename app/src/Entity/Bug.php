@@ -18,17 +18,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @psalm-suppress MissingConstructor
  */
-
 #[ORM\Entity(repositoryClass: BugRepository::class)]
-#[ORM\Table(name:'bugs')]
+#[ORM\Table(name: 'bugs')]
 class Bug
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -36,8 +32,6 @@ class Bug
 
     /**
      * Title.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Type('string')]
@@ -47,10 +41,7 @@ class Bug
 
     /**
      * Description.
-     *
-     * @var string|null
      */
-
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Type('string')]
     #[Assert\NotBlank]
@@ -59,8 +50,6 @@ class Bug
 
     /**
      * Created at.
-     *
-     * @var \DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
@@ -69,19 +58,14 @@ class Bug
     /**
      * Updated at.
      *
-     * @var \DateTimeImmutable|null
-     *
      * @psalm-suppress PropertyNotSetInConstructor
      */
-
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Category.
-     *
-     * @var Category
      */
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -101,13 +85,11 @@ class Bug
         $this->tags = new ArrayCollection();
     }
 
-
     /**
      * Getter for Id.
      *
      * @return int|null Id
      */
-
     public function getId(): ?int
     {
         return $this->id;
@@ -118,7 +100,6 @@ class Bug
      *
      * @return string|null Title
      */
-
     public function getTitle(): ?string
     {
         return $this->title;
@@ -129,7 +110,6 @@ class Bug
      *
      * @param string|null $title Title
      */
-
     public function setTitle(string $title): void
     {
         $this->title = $title;
@@ -150,7 +130,6 @@ class Bug
      *
      * @param string|null $description Description
      */
-
     public function setDescription(string $description): void
     {
         $this->description = $description;
@@ -161,7 +140,6 @@ class Bug
      *
      * @return DateTimeImmutable|null Created at
      */
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -172,12 +150,10 @@ class Bug
      *
      * @param DateTimeImmutable|null $createdAt Created at
      */
-
     public function setCreatedAt(\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
-
 
     /**
      * Getter for updated at.
@@ -194,7 +170,6 @@ class Bug
      *
      * @param DateTimeImmutable $updatedAt Updated at
      */
-
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
@@ -215,7 +190,6 @@ class Bug
      *
      * @param Category|null $category Category
      */
-
     public function setCategory(?Category $category): static
     {
         $this->category = $category;

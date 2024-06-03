@@ -29,8 +29,8 @@ class BugService implements BugServiceInterface
     /**
      * Constructor.
      *
-     * @param BugRepository     $bugRepository Bug repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param BugRepository      $bugRepository Bug repository
+     * @param PaginatorInterface $paginator     Paginator
      */
     public function __construct(private readonly BugRepository $bugRepository, private readonly PaginatorInterface $paginator)
     {
@@ -75,5 +75,4 @@ class BugService implements BugServiceInterface
     {
         $this->bugRepository->delete($bug);
     }
-
 }

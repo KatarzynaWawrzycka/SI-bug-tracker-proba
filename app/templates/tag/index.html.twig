@@ -12,46 +12,37 @@
             {{ knp_pagination_render(pagination) }}
         </div>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'tag.id') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'tag.createdAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'tag.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'tag.title') }}</th>
-
-
-                <th>{{ 'label.actions'|trans }}</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div class="tag-list">
             {% for tag in pagination.items %}
-                <tr>
-                    <td>{{ tag.id }}</td>
-                    <td>{{ tag.createdAt|format_date('long') }}</td>
-                    <td>{{ tag.updatedAt|format_date('long') }}</td>
-                    <td>{{ tag.title }}</td>
-                    <td>
+                <div class="tag-item">
+                    <div class="tag-info">
+                        <div class="tag-updated-at"><span class="label">Updated at:</span> {{ tag.updatedAt|format_date('long') }}</div>
+                        <div class="tag-details">
+                            <span class="tag-id"><span class="label">ID:</span> {{ tag.id }}</span>
+                            <span class="tag-title"><span class="label">Title:</span> {{ tag.title }}</span>
+                        </div>
+                        <div class="tag-created-at"><span class="label">Created at:</span> {{ tag.createdAt|format_date('long') }}</div>
+                    </div>
+                    <div class="tag-actions">
                         <p>
-                            <a href="{{ url('tag_show', {id: tag.id}) }}" title="{{ 'action.show'|trans }}">
+                            <a href="{{ url('tag_show', {id:tag.id}) }}" class="btn btn-primary" title="{{ 'action.show|trans' }}">
                                 {{ 'action.show'|trans }}
                             </a>
                         </p>
                         <p>
-                            <a href="{{ url('tag_edit', {id: tag.id}) }}" title="{{ 'action.edit'|trans }}">
+                            <a href="{{ url('tag_edit', {id:tag.id}) }}" class="btn btn-primary" title="{{ 'action.edit|trans' }}">
                                 {{ 'action.edit'|trans }}
                             </a>
                         </p>
                         <p>
-                            <a href="{{ url('tag_delete', {id: tag.id}) }}" title="{{ 'action.delete'|trans }}">
+                            <a href="{{ url('tag_delete', {id:tag.id}) }}" class="btn btn-primary" title="{{ 'action.delete|trans' }}">
                                 {{ 'action.delete'|trans }}
                             </a>
                         </p>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             {% endfor %}
-            </tbody>
-        </table>
+        </div>
 
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
