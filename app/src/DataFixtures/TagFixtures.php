@@ -17,17 +17,18 @@ class TagFixtures extends AbstractBaseFixtures
      */
     public function loadData(): void
     {
-        for ($i = 0; $i < 10; ++$i) {
+        $this->createMany(10, 'tags', function () {
             $tag = new Tag();
-            $tag->setTitle($this->faker->word());
+            $tag->setTitle($this->faker->unique()->word());
             $tag->setCreatedAt(
                 \DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days'))
             );
             $tag->setUpdatedAt(
                 \DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days'))
             );
-            $this->manager->persist($tag);
-        }
+
+            return $tag;
+        });
 
         $this->manager->flush();
     }

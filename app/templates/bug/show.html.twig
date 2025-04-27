@@ -20,9 +20,7 @@
             <dd>{{  bug.description }}</dd>
             <dt>{{ 'label.tags'|trans }}</dt>
             <dd>
-                    {%  for tag in bug.tags %}
-                        {{ tag.title }}
-                    {% endfor %}
+                {{ bug.tags|map(tag => tag.title)|join(', ') }}
             </dd>
         </dl>
         <p>

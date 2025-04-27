@@ -34,9 +34,7 @@
                         </div>
                         <div class="bug-tags">
                             <span class="label">Tags:</span>
-                            {% for tag in bug.tags %}
-                                <span class="bug-tag">{{ tag.title }}</span>
-                            {% endfor %}
+                            {{ bug.tags|map(tag => tag.title)|join(', ') }}
                         </div>
                     </div>
                     <div class="bug-actions">

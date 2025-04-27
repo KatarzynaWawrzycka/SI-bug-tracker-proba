@@ -6,6 +6,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Tag;
 use App\Entity\Bug;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -45,6 +46,11 @@ class BugFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
             $category = $this->getRandomReference('categories');
             $bug->setCategory($category);
 
+            $randomTags = $this->getRandomReferences('tags', rand(2, 3));
+            foreach ($randomTags as $tag) {
+                $bug->addTag($tag);
+            }
+
             return $bug;
         });
 
@@ -61,6 +67,6 @@ class BugFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
      */
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class];
+        return [CategoryFixtures::class, TagFixtures::class];
     }
 }
