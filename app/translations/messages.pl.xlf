@@ -194,6 +194,18 @@
             <source>label.none</source>
             <target>wybierz</target>
         </trans-unit>
+        <trans-unit id="label.filter by category">
+            <source>label.filter_by_category</source>
+            <target>Filtruj według kategorii</target>
+        </trans-unit>
+        <trans-unit id="label all categories">
+            <source>label.all_categories</source>
+            <target>wszystkie</target>
+        </trans-unit>
+        <trans-unit id="action filter">
+            <source>action.filter</source>
+            <target>Filtruj</target>
+        </trans-unit>
     </body>
 </file>
 </xliff>

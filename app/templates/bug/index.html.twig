@@ -29,7 +29,7 @@
 
         <form method="get" action="{{ path('bug_index') }}" class="mb-3">
             <div class="form-group">
-                <label for="category">{{ 'label.category'|trans }}</label>
+                <label for="category">{{ 'label.filter_by_category'|trans }}</label>
                 <select id="categoryId" name="categoryId" class="form-control">
                     <option value="">{{ 'label.all_categories'|trans }}</option>
                     {% for category in categories %}
