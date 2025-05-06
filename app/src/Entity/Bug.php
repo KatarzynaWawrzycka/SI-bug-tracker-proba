@@ -80,6 +80,15 @@ class Bug
     #[ORM\JoinTable('bugs_tags')]
     private Collection $tags;
 
+    /**
+     * Author
+     */
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Type(User::class)]
+    private ?User $author;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -217,6 +226,18 @@ class Bug
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

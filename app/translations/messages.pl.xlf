@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<file source-language="en" target-language="pl" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="Logged in as">
+            <source>Logged in as</source>
+            <target>Zalogowano jako:</target>
+        </trans-unit>
+        <trans-unit id="action sign in">
+            <source>action.sign_in</source>
+            <target>Zaloguj się</target>
+        </trans-unit>
+        <trans-unit id="Sign in">
+            <source>Sign_in</source>
+            <target>Zaloguj się</target>
+        </trans-unit>
+        <trans-unit id="Please sign in">
+            <source>Please sign in</source>
+            <target>Zaloguj się</target>
+        </trans-unit>
+        <trans-unit id="Password">
+            <source>Password</source>
+            <target>Hasło</target>
+        </trans-unit>
+        <trans-unit id="action logout">
+            <source>action.logout</source>
+            <target>Wyloguj się</target>
+        </trans-unit>
+        <trans-unit id="label.tags">
+            <source>label.tags</source>
+            <target>Tagi</target>
+        </trans-unit>
+        <trans-unit id="message.empty_list">
+            <source>message.empty_list</source>
+            <target>Lista jest pusta.</target>
+        </trans-unit>
+        <trans-unit id="message.record_not_found">
+            <source>message.record_not_found</source>
+            <target>Rekord nie został znaleziony.</target>
+        </trans-unit>
+        <trans-unit id="message.edited_successfully ">
+            <source>message.edited_successfully</source>
+            <target>Edycja zakończona sukcesem.</target>
+        </trans-unit>
+        <trans-unit id="message.deleted_successfully ">
+            <source>message.deleted_successfully</source>
+            <target>Usuwanie zakończone sukcesem.</target>
+        </trans-unit>
+        <trans-unit id="message.created_successfully ">
+            <source>message.created_successfully</source>
+            <target>Dodawanie zakończone sukcesem.</target>
+        </trans-unit>
+        <trans-unit id="message.form_error ">
+            <source>message.form_error</source>
+            <target>Błąd formularza</target>
+        </trans-unit>
+        <trans-unit id="message.category_contains_bugs">
+            <source>message.category_contains_bugs</source>
+            <target>Kategoria zawiera zgłoszenia.</target>
+        </trans-unit>
+        <trans-unit id="title.bug_list">
+            <source>title.bug_list</source>
+            <target>Lista zgłoszeń:</target>
+        </trans-unit>
+        <trans-unit id="title.category_list">
+            <source>title.category_list</source>
+            <target>Lista kategorii:</target>
+        </trans-unit>
+        <trans-unit id="title.tag_list">
+            <source>title.tag_list</source>
+            <target>Lista tagów:</target>
+        </trans-unit>
+        <trans-unit id="action.create_new_bug">
+            <source>action.create_new_bug</source>
+            <target>Dodaj nowe zgłoszenie</target>
+        </trans-unit>
+        <trans-unit id="action.create_new_category">
+            <source>action.create_new_category</source>
+            <target>Dodaj nową kategorię</target>
+        </trans-unit>
+        <trans-unit id="action.create_new_tag">
+            <source>action.create_new_tag</source>
+            <target>Dodaj nowy tag</target>
+        </trans-unit>
+        <trans-unit id="Bugs">
+            <source>label.bugs</source>
+            <target>Zgłoszenia</target>
+        </trans-unit>
+        <trans-unit id="Categories">
+            <source>label.categories</source>
+            <target>Kategorie</target>
+        </trans-unit>
+        <trans-unit id="Tags">
+            <source>label.tags</source>
+            <target>Tagi</target>
+        </trans-unit>
+        <trans-unit id="action.show">
+            <source>action.show</source>
+            <target>Szczegóły</target>
+        </trans-unit>
+        <trans-unit id="action.edit">
+            <source>action.edit</source>
+            <target>Edytuj</target>
+        </trans-unit>
+        <trans-unit id="action.delete">
+            <source>action.delete</source>
+            <target>Usuń</target>
+        </trans-unit>
+        <trans-unit id="Author:">
+            <source>label.author</source>
+            <target>Autor:</target>
+        </trans-unit>
+        <trans-unit id="Updated at:">
+            <source>label.updated_at</source>
+            <target>Zaktualizowano:</target>
+        </trans-unit>
+        <trans-unit id="ID:">
+            <source>label.id</source>
+            <target>ID:</target>
+        </trans-unit>
+        <trans-unit id="Title:">
+            <source>label.title</source>
+            <target>Tytuł:</target>
+        </trans-unit>
+        <trans-unit id="Created at:">
+            <source>label.created_at</source>
+            <target>Utworzono:</target>
+        </trans-unit>
+        <trans-unit id="Category:">
+            <source>label.category</source>
+        <target>Kategoria:</target>
+        </trans-unit>
+        <trans-unit id="Description:">
+            <source>label.description</source>
+            <target>Opis:</target>
+        </trans-unit>
+        <trans-unit id="Bug details:">
+            <source>title.bug_details</source>
+            <target>Szczegóły zgłoszenia #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Category details:">
+            <source>title.category_details</source>
+            <target>Szczegóły kategorii #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Tag details:">
+            <source>title.tag_details</source>
+            <target>Szczegóły taga #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Back to list">
+            <source>action.back_to_list</source>
+            <target>Powrót do listy</target>
+        </trans-unit>
+        <trans-unit id="Bug edit:">
+            <source>title.bug_edit</source>
+            <target>Edycja zgłoszenia #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Category edit:">
+            <source>title.category_edit</source>
+            <target>Edycja kategorii #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Tag edit:">
+            <source>title.tag_edit</source>
+            <target>Edycja taga #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Bug delete:">
+            <source>title.bug_delete</source>
+            <target>Ususwanie zgłoszenia #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Category delete:">
+            <source>title.category_delete</source>
+            <target>Ususwanie kategorii #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Tag delete:">
+            <source>title.tag_delete</source>
+            <target>Ususwanie taga #%id%:</target>
+        </trans-unit>
+        <trans-unit id="Bug create:">
+            <source>title.bug_create</source>
+            <target>Dodawanie zgłoszenia:</target>
+        </trans-unit>
+        <trans-unit id="Category create:">
+            <source>title.category_create</source>
+            <target>Dodawanie kategorii:</target>
+        </trans-unit>
+        <trans-unit id="Tag create:">
+            <source>title.tag_create</source>
+            <target>Dodawanie taga:</target>
+        </trans-unit>
+        <trans-unit id="action save">
+            <source>action.save</source>
+            <target>Zapisz</target>
+        </trans-unit>
+        <trans-unit id="label none">
+            <source>label.none</source>
+            <target>wybierz</target>
+        </trans-unit>
+    </body>
+</file>
+</xliff>

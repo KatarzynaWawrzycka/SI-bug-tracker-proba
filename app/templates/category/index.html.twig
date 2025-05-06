@@ -8,10 +8,22 @@
     <h1>{{ 'title.category_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
-        <div class="text-left create-category-button">
-            <a href="{{ url('category_create') }}" class="btn btn-primary" title="{{ 'action.create_new_category'|trans }}">
-                {{ 'action.create_new_category'|trans }}
-            </a>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="text-left create-category-button">
+                <a href="{{ url('category_create') }}" class="btn btn-primary" title="{{ 'action.create_new_category'|trans }}">
+                    {{ 'action.create_new_category'|trans }}
+                </a>
+            </div>
+        {% endif %}
+            <div class="ms-auto">
+                <a href="{{ path('bug_index') }}" class="btn btn-outline-secondary me-2">
+                    {{ 'label.bugs'|trans }}
+                </a>
+                <a href="{{ path('tag_index') }}" class="btn btn-outline-secondary">
+                    {{ 'label.tags'|trans }}
+                </a>
+            </div>
         </div>
 
         <div class="navigation text-center">
@@ -22,29 +34,35 @@
             {% for category in pagination.items %}
                 <div class="category-item">
                     <div class="category-info">
-                        <div class="category-updated-at"><span class="label">Updated at:</span> {{ category.updatedAt|format_date('long') }}</div>
+                        <div class="category-updated-at"><span class="label">{{ 'label.updated_at'|trans }}</span> {{ category.updatedAt|format_date('long') }}</div>
                         <div class="category-details">
-                            <span class="category-id"><span class="label">ID:</span> {{ category.id }}</span>
-                            <span class="category-title"><span class="label">Title:</span> {{ category.title }}</span>
+                            <span class="category-id"><span class="label">{{ 'label.id'|trans }}</span> {{ category.id }}</span>
+                            <span class="category-title"><span class="label">{{ 'label.title'|trans }}</span> {{ category.title }}</span>
                         </div>
-                        <div class="category-created-at"><span class="label">Created at:</span> {{ category.createdAt|format_date('long') }}</div>
+                        <div class="category-created-at"><span class="label">{{ 'label.created_at'|trans }}</span> {{ category.createdAt|format_date('long') }}</div>
                     </div>
-                    <div class="category-actions">
+                    <div class="category-actions d-flex flex-column align-items-end">
+                        {% if is_granted('CATEGORY_SHOW', category) %}
                         <p>
                             <a href="{{ url('category_show', {id:category.id}) }}" class="btn btn-primary" title="{{ 'action.show|trans' }}">
                                 {{ 'action.show'|trans }}
                             </a>
                         </p>
+                        {% endif %}
+                        {% if is_granted('CATEGORY_EDIT', category) %}
                         <p>
                             <a href="{{ url('category_edit', {id:category.id}) }}" class="btn btn-primary" title="{{ 'action.edit|trans' }}">
                                 {{ 'action.edit'|trans }}
                             </a>
                         </p>
+                        {% endif %}
+                        {% if is_granted('CATEGORY_DELETE', category) %}
                         <p>
                             <a href="{{ url('category_delete', {id:category.id}) }}" class="btn btn-primary" title="{{ 'action.delete|trans' }}">
                                 {{ 'action.delete'|trans }}
                             </a>
                         </p>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

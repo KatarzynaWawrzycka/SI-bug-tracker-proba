@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\Type\CategoryType;
+use App\Security\Voter\CategoryVoter;
 use App\Service\CategoryServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -59,6 +60,12 @@ class CategoryController extends AbstractController
     )]
     public function show(Category $category): Response
     {
+        if (!$this->isGranted(CategoryVoter::SHOW, $category)) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('category_index');
+        }
+
         return $this->render('category/show.html.twig', ['category' => $category]);
     }
 
@@ -76,6 +83,12 @@ class CategoryController extends AbstractController
     )]
     public function create(Request $request): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('category_index');
+        }
+
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
@@ -108,6 +121,12 @@ class CategoryController extends AbstractController
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, Category $category): Response
     {
+        if (!$this->isGranted(CategoryVoter::EDIT, $category)) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('category_index');
+        }
+
         $form = $this->createForm(
             CategoryType::class,
             $category,
@@ -149,10 +168,16 @@ class CategoryController extends AbstractController
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, Category $category): Response
     {
+        if (!$this->isGranted(CategoryVoter::DELETE, $category)) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('category_index');
+        }
+
         if (!$this->categoryService->canBeDeleted($category)) {
             $this->addFlash(
                 'warning',
-                $this->translator->trans('message.category_contains_tasks')
+                $this->translator->trans('message.category_contains_bugs')
             );
 
             return $this->redirectToRoute('category_index');

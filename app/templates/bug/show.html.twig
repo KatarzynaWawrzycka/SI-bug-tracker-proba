@@ -8,6 +8,8 @@
     <h1>{{ 'title.bug_details'|trans({'%id%': bug.id|default('')}) }}</h1>
     {% if bug is defined and bug|length %}
         <dl class="dl-horizontal">
+            <dt>{{ 'label.author'|trans }}</dt>
+            <dd>{{ bug.author.email }}</dd>
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ bug.id }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>

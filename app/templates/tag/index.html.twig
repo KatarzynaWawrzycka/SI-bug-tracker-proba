@@ -8,6 +8,24 @@
     <h1>{{ 'title.tag_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="text-left create-tag-button">
+                <a href="{{ url('tag_create') }}" class="btn btn-primary" title="{{ 'action.create_new_tag'|trans }}">
+                    {{ 'action.create_new_tag'|trans }}
+                </a>
+            </div>
+        {% endif %}
+            <div class="ms-auto">
+                <a href="{{ path('bug_index') }}" class="btn btn-outline-secondary">
+                    {{ 'label.bugs'|trans }}
+                </a>
+                <a href="{{ path('category_index') }}" class="btn btn-outline-secondary me-2">
+                    {{ 'label.categories'|trans }}
+                </a>
+            </div>
+        </div>
+
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
@@ -16,29 +34,35 @@
             {% for tag in pagination.items %}
                 <div class="tag-item">
                     <div class="tag-info">
-                        <div class="tag-updated-at"><span class="label">Updated at:</span> {{ tag.updatedAt|format_date('long') }}</div>
+                        <div class="tag-updated-at"><span class="label">{{ 'label.updated_at'|trans }}</span> {{ tag.updatedAt|format_date('long') }}</div>
                         <div class="tag-details">
-                            <span class="tag-id"><span class="label">ID:</span> {{ tag.id }}</span>
-                            <span class="tag-title"><span class="label">Title:</span> {{ tag.title }}</span>
+                            <span class="tag-id"><span class="label">{{ 'label.id'|trans }}</span> {{ tag.id }}</span>
+                            <span class="tag-title"><span class="label">{{ 'label.title'|trans }}</span> {{ tag.title }}</span>
                         </div>
-                        <div class="tag-created-at"><span class="label">Created at:</span> {{ tag.createdAt|format_date('long') }}</div>
+                        <div class="tag-created-at"><span class="label">{{ 'label.created_at'|trans }}</span> {{ tag.createdAt|format_date('long') }}</div>
                     </div>
-                    <div class="tag-actions">
+                    <div class="tag-actions d-flex flex-column align-items-end">
+                        {% if is_granted('TAG_SHOW', tag) %}
                         <p>
                             <a href="{{ url('tag_show', {id:tag.id}) }}" class="btn btn-primary" title="{{ 'action.show|trans' }}">
                                 {{ 'action.show'|trans }}
                             </a>
                         </p>
+                        {% endif %}
+                        {% if is_granted('TAG_EDIT', tag) %}
                         <p>
                             <a href="{{ url('tag_edit', {id:tag.id}) }}" class="btn btn-primary" title="{{ 'action.edit|trans' }}">
                                 {{ 'action.edit'|trans }}
                             </a>
                         </p>
+                        {% endif %}
+                        {% if is_granted('TAG_DELETE', tag) %}
                         <p>
                             <a href="{{ url('tag_delete', {id:tag.id}) }}" class="btn btn-primary" title="{{ 'action.delete|trans' }}">
                                 {{ 'action.delete'|trans }}
                             </a>
                         </p>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

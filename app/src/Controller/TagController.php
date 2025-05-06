@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Tag;
 use App\Form\Type\TagType;
+use App\Security\Voter\TagVoter;
 use App\Service\TagServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,6 +62,11 @@ class TagController extends AbstractController
     )]
     public function show(Tag $tag): Response
     {
+        if (!$this->isGranted(TagVoter::SHOW, $tag)) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('tag_index');
+        }
         return $this->render('tag/show.html.twig', ['tag' => $tag]);
     }
 
@@ -78,6 +84,12 @@ class TagController extends AbstractController
     )]
     public function create(Request $request): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('tag_index');
+        }
+
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
@@ -110,6 +122,12 @@ class TagController extends AbstractController
     #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, Tag $tag): Response
     {
+        if (!$this->isGranted(TagVoter::EDIT, $tag)) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('tag_index');
+        }
+
         $form = $this->createForm(
             TagType::class,
             $tag,
@@ -151,6 +169,12 @@ class TagController extends AbstractController
     #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, Tag $tag): Response
     {
+        if (!$this->isGranted(TagVoter::DELETE, $tag)) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('tag_index');
+        }
+
         $form = $this->createForm(TagType::class, $tag, [
             'method' => 'DELETE',
             'action' => $this->generateUrl('tag_delete', ['id' => $tag->getId()]),

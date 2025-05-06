@@ -5,10 +5,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
-use App\Entity\Tag;
 use App\Entity\Bug;
+use App\Entity\Category;
+use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+use Faker\Generator;
 
 /**
  * Class BugFixtures.
@@ -24,7 +26,7 @@ class BugFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
      */
     public function loadData(): void
     {
-        if (null === $this->manager || null === $this->faker) {
+        if (!$this->manager instanceof ObjectManager || !$this->faker instanceof Generator) {
             return;
         }
 
@@ -51,6 +53,9 @@ class BugFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
                 $bug->addTag($tag);
             }
 
+            $author = $this->getRandomReference('user', User::class);
+            $bug->setAuthor($author);
+
             return $bug;
         });
 
@@ -67,6 +72,6 @@ class BugFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
      */
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class, TagFixtures::class];
+        return [CategoryFixtures::class, TagFixtures::class, UserFixtures::class];
     }
 }

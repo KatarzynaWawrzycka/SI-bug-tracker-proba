@@ -1,0 +1,38 @@
+<?php
+/**
+ * Bug List Input Filters Dto resolver.
+ */
+
+namespace App\Resolver;
+
+use App\Dto\BugListInputFiltersDto;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+
+/**
+ * BugListInputFiltersDtoResolver class.
+ */
+class BugListInputFiltersDtoResolver implements ValueResolverInterface
+{
+    /**
+     * Returns the possible value(s).
+     *
+     * @param Request          $request  HTTP Request
+     * @param ArgumentMetadata $argument Argument metadata
+     *
+     * @return iterable Iterable
+     */
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
+    {
+        $argumentType = $argument->getType();
+
+        if (!$argumentType || !is_a($argumentType, BugListInputFiltersDto::class, true)) {
+            return [];
+        }
+
+        $categoryId = $request->query->getInt('categoryId');
+
+        return [new BugListInputFiltersDto($categoryId)];
+    }
+}

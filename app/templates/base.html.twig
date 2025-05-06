@@ -13,6 +13,17 @@
     {% endblock %}
 </head>
 <body>
+<header class="d-flex justify-content-end p-3 bg-light border-bottom">
+    {% if app.user %}
+        <div>
+            {{ 'Logged in as'|trans }} <strong>{{ app.user.email }}</strong>
+            <a href="{{ path('app_logout') }}" class="btn btn-sm btn-outline-secondary ms-2">{{ 'action.logout'|trans }}</a>
+        </div>
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-sm btn-primary">{{ 'action.sign_in'|trans }}</a>
+    {% endif %}
+</header>
+
 <main role="main" class="container-fluid">
 
     <div class="container-fluid">

@@ -5,8 +5,11 @@
 
 namespace App\Repository;
 
+use App\Dto\BugListFiltersDto;
+use App\Dto\BugListInputFiltersDto;
 use App\Entity\Category;
 use App\Entity\Bug;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
@@ -39,19 +42,75 @@ class BugRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query all records.
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder       $queryBuilder Query builder
+     * @param BugListFiltersDto $filters      Filters
      *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    private function applyFiltersToList(QueryBuilder $queryBuilder, BugListFiltersDto $filters): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder()
+        if ($filters->category instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters->category);
+        }
+
+        return $queryBuilder;
+    }
+
+    /**
+     * Query all records.
+     *
+     * @param User $author User entity
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByAuthor(User $author, ?BugListFiltersDto $filters = null): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('bug')
             ->select(
                 'partial bug.{id, createdAt, updatedAt, title, description}',
-                'partial category.{id, title}'
+                'partial category.{id, title}',
+                'partial tags.{id, title}'
             )
             ->join('bug.category', 'category')
+            ->leftJoin('bug.tags', 'tags');
+
+        if (!in_array('ROLE_ADMIN', $author->getRoles(), true)) {
+            $qb->andWhere('bug.author = :author')
+                ->setParameter('author', $author);
+        }
+
+        if ($filters) {
+            $qb = $this->applyFiltersToList($qb, $filters);
+        }
+
+        return $qb;
+    }
+
+    /**
+     * Query public bugs (for unauthenticated users).
+     *
+     * @return QueryBuilder
+     */
+    public function queryPublicBugs(?BugListFiltersDto $filters = null): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('bug')
+            ->select(
+                'partial bug.{id, createdAt, updatedAt, title, description}',
+                'partial category.{id, title}',
+                'partial tags.{id, title}'
+            )
+            ->join('bug.category', 'category')
+            ->leftJoin('bug.tags', 'tags')
             ->orderBy('bug.updatedAt', 'DESC');
+
+        if ($filters) {
+            $qb = $this->applyFiltersToList($qb, $filters);
+        }
+
+        return $qb;
     }
 
     /**
