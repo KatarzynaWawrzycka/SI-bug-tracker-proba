@@ -206,6 +206,22 @@
             <source>action.filter</source>
             <target>Filtruj</target>
         </trans-unit>
+        <trans-unit id="title admin profile edit">
+            <source>title.admin_profile_edit</source>
+            <target>Edycja danych profilu</target>
+        </trans-unit>
+        <trans-unit id="label email">
+            <source>label.email</source>
+            <target>email:</target>
+        </trans-unit>
+        <trans-unit id="label new password">
+            <source>label.new_password</source>
+            <target>nowe hasło:</target>
+        </trans-unit>
+        <trans-unit id="label confirm password">
+            <source>label.confirm_password</source>
+            <target>potwierdź hasło:</target>
+        </trans-unit>
     </body>
 </file>
 </xliff>
