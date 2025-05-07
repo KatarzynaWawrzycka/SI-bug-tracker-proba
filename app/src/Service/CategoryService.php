@@ -5,13 +5,13 @@
 
 namespace App\Service;
 
-use App\Repository\CategoryRepository;
+use App\Entity\Category;
 use App\Repository\BugRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use App\Entity\Category;
 
 /**
  * Class CategoryService.
@@ -33,7 +33,8 @@ class CategoryService implements CategoryServiceInterface
      * Constructor.
      *
      * @param CategoryRepository $categoryRepository Category repository
-     * @param PaginatorInterface $paginator          Paginator
+     * @param PaginatorInterface $paginator Paginator
+     * @param BugRepository $bugRepository
      */
     public function __construct(private readonly CategoryRepository $categoryRepository, private readonly PaginatorInterface $paginator, private readonly BugRepository $bugRepository)
     {
@@ -65,6 +66,9 @@ class CategoryService implements CategoryServiceInterface
         $this->categoryRepository->save($category);
     }
 
+    /**
+     * Delete entity.
+     */
     public function delete(Category $category): void
     {
         // assert($this->_em instanceof EntityManager);

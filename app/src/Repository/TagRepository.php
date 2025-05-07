@@ -1,11 +1,13 @@
 <?php
+/**
+ * Tag repository.
+ */
 
 namespace App\Repository;
 
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -57,18 +59,6 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create new query builder.
-     *
-     * @param QueryBuilder|null $queryBuilder Query builder
-     *
-     * @return QueryBuilder Query builder
-     */
-    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
-    {
-        return $queryBuilder ?? $this->createQueryBuilder('tag');
-    }
-
-    /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
@@ -84,9 +74,6 @@ class TagRepository extends ServiceEntityRepository
      * Delete entity.
      *
      * @param Tag $tag Tag entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function delete(Tag $tag): void
     {
@@ -101,6 +88,8 @@ class TagRepository extends ServiceEntityRepository
      * @param string $title Tag title
      *
      * @return Tag|null Tag entity
+     *
+     * @throws NonUniqueResultException
      */
     public function findOneByTitle(string $title): ?Tag
     {
@@ -109,5 +98,17 @@ class TagRepository extends ServiceEntityRepository
             ->setParameter('title', $title)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
 }

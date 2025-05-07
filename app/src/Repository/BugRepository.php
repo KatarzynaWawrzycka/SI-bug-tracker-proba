@@ -6,9 +6,8 @@
 namespace App\Repository;
 
 use App\Dto\BugListFiltersDto;
-use App\Dto\BugListInputFiltersDto;
-use App\Entity\Category;
 use App\Entity\Bug;
+use App\Entity\Category;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
@@ -42,28 +41,10 @@ class BugRepository extends ServiceEntityRepository
     }
 
     /**
-     * Apply filters to paginated list.
-     *
-     * @param QueryBuilder       $queryBuilder Query builder
-     * @param BugListFiltersDto $filters      Filters
-     *
-     * @return QueryBuilder Query builder
-     */
-    private function applyFiltersToList(QueryBuilder $queryBuilder, BugListFiltersDto $filters): QueryBuilder
-    {
-        if ($filters->category instanceof Category) {
-            $queryBuilder->andWhere('category = :category')
-                ->setParameter('category', $filters->category);
-        }
-
-        return $queryBuilder;
-    }
-
-    /**
      * Query all records.
      *
      * @param User $author User entity
-     *
+     * @param BugListFiltersDto|null $filters
      * @return QueryBuilder Query builder
      */
     public function queryByAuthor(User $author, ?BugListFiltersDto $filters = null): QueryBuilder
@@ -91,7 +72,7 @@ class BugRepository extends ServiceEntityRepository
 
     /**
      * Query public bugs (for unauthenticated users).
-     *
+     * @param BugListFiltersDto|null $filters
      * @return QueryBuilder
      */
     public function queryPublicBugs(?BugListFiltersDto $filters = null): QueryBuilder
@@ -162,6 +143,24 @@ class BugRepository extends ServiceEntityRepository
         assert($this->_em instanceof EntityManager);
         $this->_em->remove($bug);
         $this->_em->flush();
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder      $queryBuilder Query builder
+     * @param BugListFiltersDto $filters      Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, BugListFiltersDto $filters): QueryBuilder
+    {
+        if ($filters->category instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters->category);
+        }
+
+        return $queryBuilder;
     }
 
     /**

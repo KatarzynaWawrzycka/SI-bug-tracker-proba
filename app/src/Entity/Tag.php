@@ -87,7 +87,8 @@ class Tag
     /**
      * Setter for title.
      *
-     * @param string|null $title Title
+     * @param string $title Title
+     * @return Tag
      */
     public function setTitle(string $title): static
     {
@@ -109,7 +110,8 @@ class Tag
     /**
      * Setter for created at.
      *
-     * @param \DateTimeImmutable|null $createdAt Created at
+     * @param \DateTimeImmutable $createdAt Created at
+     * @return Tag
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
@@ -131,7 +133,8 @@ class Tag
     /**
      * Setter for updated at.
      *
-     * @param \DateTimeImmutable|null $updatedAt Updated at
+     * @param \DateTimeImmutable $updatedAt Updated at
+     * @return Tag
      */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
@@ -140,11 +143,18 @@ class Tag
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     * @return $this
+     */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;

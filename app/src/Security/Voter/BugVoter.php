@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  Class BugVoter
+ *  Class BugVoter.
  */
 
 namespace App\Security\Voter;
@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- *  Class BugVoter
+ *  Class BugVoter.
  */
 final class BugVoter extends Voter
 {
@@ -82,7 +82,7 @@ final class BugVoter extends Voter
     /**
      * Checks if user can delete bug.
      *
-     * @param Bug          $bug Bug entity
+     * @param Bug           $bug  Bug entity
      * @param UserInterface $user User
      *
      * @return bool Result
@@ -99,7 +99,7 @@ final class BugVoter extends Voter
     /**
      * Checks if user can edit bug.
      *
-     * @param Bug          $bug Bug entity
+     * @param Bug           $bug  Bug entity
      * @param UserInterface $user User
      *
      * @return bool Result
@@ -116,7 +116,7 @@ final class BugVoter extends Voter
     /**
      * Checks if user can show bug.
      *
-     * @param Bug          $bug Bug entity
+     * @param Bug           $bug  Bug entity
      * @param UserInterface $user User
      *
      * @return bool Result

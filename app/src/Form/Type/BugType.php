@@ -69,7 +69,7 @@ class BugType extends AbstractType
             [
                 'label' => 'label.description',
                 'required' => true,
-                'attr' => ['max_length' => 255]
+                'attr' => ['max_length' => 255],
             ]
         );
         $builder->add(

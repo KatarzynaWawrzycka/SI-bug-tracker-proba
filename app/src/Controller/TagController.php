@@ -35,7 +35,7 @@ class TagController extends AbstractController
     /**
      * Index action.
      *
-     * @param int $page Page number
+     * @param int|null $page Page number
      *
      * @return Response HTTP response
      */
@@ -67,6 +67,7 @@ class TagController extends AbstractController
 
             return $this->redirectToRoute('tag_index');
         }
+
         return $this->render('tag/show.html.twig', ['tag' => $tag]);
     }
 

@@ -63,6 +63,12 @@ class TagService implements TagServiceInterface
         $this->tagRepository->save($tag);
     }
 
+    /**
+     * Delete entity.
+     *
+     * @param Tag $tag
+     * @return void
+     */
     public function delete(Tag $tag): void
     {
         $this->tagRepository->delete($tag);
@@ -74,6 +80,7 @@ class TagService implements TagServiceInterface
      * @param string $title Tag title
      *
      * @return Tag|null Tag entity
+     * @throws NonUniqueResultException
      */
     public function findOneByTitle(string $title): ?Tag
     {

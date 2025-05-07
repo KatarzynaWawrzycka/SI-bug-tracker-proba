@@ -81,7 +81,7 @@ class Bug
     private Collection $tags;
 
     /**
-     * Author
+     * Author.
      */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
@@ -89,6 +89,9 @@ class Bug
     #[Assert\Type(User::class)]
     private ?User $author;
 
+    /**
+     * Bug constructor.
+     */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -117,7 +120,7 @@ class Bug
     /**
      * Setter for title.
      *
-     * @param string|null $title Title
+     * @param string $title Title
      */
     public function setTitle(string $title): void
     {
@@ -137,7 +140,7 @@ class Bug
     /**
      * Getter for description.
      *
-     * @param string|null $description Description
+     * @param string $description Description
      */
     public function setDescription(string $description): void
     {
@@ -147,7 +150,7 @@ class Bug
     /**
      * Getter for created at.
      *
-     * @return DateTimeImmutable|null Created at
+     * @return \DateTimeImmutable|null Created at
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -157,7 +160,7 @@ class Bug
     /**
      * Setter for created at.
      *
-     * @param DateTimeImmutable|null $createdAt Created at
+     * @param \DateTimeImmutable $createdAt Created at
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): void
     {
@@ -167,7 +170,7 @@ class Bug
     /**
      * Getter for updated at.
      *
-     * @return DateTimeImmutable|null Updated at
+     * @return \DateTimeImmutable|null Updated at
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -177,7 +180,7 @@ class Bug
     /**
      * Setter for updated at.
      *
-     * @param DateTimeImmutable $updatedAt Updated at
+     * @param \DateTimeImmutable $updatedAt Updated at
      */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
     {
@@ -198,6 +201,7 @@ class Bug
      * Setter for category.
      *
      * @param Category|null $category Category
+     * @return Bug
      */
     public function setCategory(?Category $category): static
     {
@@ -214,6 +218,10 @@ class Bug
         return $this->tags;
     }
 
+    /**
+     * @param Tag $tag
+     * @return $this
+     */
     public function addTag(Tag $tag): static
     {
         if (!$this->tags->contains($tag)) {
@@ -223,6 +231,10 @@ class Bug
         return $this;
     }
 
+    /**
+     * @param Tag $tag
+     * @return $this
+     */
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
@@ -230,11 +242,18 @@ class Bug
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
+    /**
+     * @param User|null $author
+     * @return $this
+     */
     public function setAuthor(?User $author): static
     {
         $this->author = $author;

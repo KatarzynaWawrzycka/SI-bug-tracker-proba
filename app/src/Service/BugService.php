@@ -10,7 +10,9 @@ use App\Dto\BugListInputFiltersDto;
 use App\Entity\Bug;
 use App\Entity\User;
 use App\Repository\BugRepository;
-use App\Service\CategoryServiceInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
@@ -21,55 +23,32 @@ use Knp\Component\Pager\PaginatorInterface;
 class BugService implements BugServiceInterface
 {
     /**
-     * Items per page.
-     *
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them in app/config/config.yml.
-     * See https://symfony.com/doc/current/best_practices.html#configuration
-     *
-     * @constant int
-     */
-    private const PAGINATOR_ITEMS_PER_PAGE = 10;
-
-    /**
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService Category service
-     * @param BugRepository      $bugRepository Bug repository
-     * @param PaginatorInterface $paginator     Paginator
+     * @param BugRepository            $bugRepository   Bug repository
+     * @param PaginatorInterface       $paginator       Paginator
      */
     public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly BugRepository $bugRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
     /**
-     * Prepare filters for the bug list.
-     *
-     * @param BugListInputFiltersDto $filters Raw filters from request
-     *
-     * @return BugListFiltersDto Result filters
-     */
-    private function prepareFilters(BugListInputFiltersDto $filters): BugListFiltersDto
-    {
-        return new BugListFiltersDto(
-            null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
-        );
-    }
-
-    /**
      * Get paginated list.
      *
-     * @param int                     $page    Page number
-     * @param User                    $user  Bug author
+     * @param int                    $page    Page number
+     * @param User|null              $user    Bug author
      * @param BugListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface<SlidingPagination> Paginated list
+     *
+     * @throws NonUniqueResultException
      */
     public function getPaginatedList(int $page, ?User $user, BugListInputFiltersDto $filters): PaginationInterface
     {
         $filters = $this->prepareFilters($filters);
 
-        if ($user !== null) {
+        if (null !== $user) {
             $query = $this->bugRepository->queryByAuthor($user, $filters);
         } else {
             $query = $this->bugRepository->queryPublicBugs($filters);
@@ -83,7 +62,7 @@ class BugService implements BugServiceInterface
                 'sortFieldAllowList' => ['bug.id', 'bug.createdAt', 'bug.updatedAt', 'bug.title', 'bug.description', 'category.title'],
                 'defaultSortFieldName' => 'bug.updatedAt',
                 'defaultSortDirection' => 'desc',
-                ]
+            ]
         );
     }
 
@@ -91,6 +70,9 @@ class BugService implements BugServiceInterface
      * Save entity.
      *
      * @param Bug $bug Bug entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function save(Bug $bug): void
     {
@@ -105,9 +87,39 @@ class BugService implements BugServiceInterface
      * Delete entity.
      *
      * @param Bug $bug Bug entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(Bug $bug): void
     {
         $this->bugRepository->delete($bug);
+    }
+
+    /**
+     * Items per page.
+     *
+     * Use constants to define configuration options that rarely change instead
+     * of specifying them in app/config/config.yml.
+     * See https://symfony.com/doc/current/best_practices.html#configuration
+     *
+     * @constant int
+     */
+    private const PAGINATOR_ITEMS_PER_PAGE = 10;
+
+    /**
+     * Prepare filters for the bug list.
+     *
+     * @param BugListInputFiltersDto $filters Raw filters from request
+     *
+     * @return BugListFiltersDto Result filters
+     *
+     * @throws NonUniqueResultException
+     */
+    private function prepareFilters(BugListInputFiltersDto $filters): BugListFiltersDto
+    {
+        return new BugListFiltersDto(
+            null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
+        );
     }
 }

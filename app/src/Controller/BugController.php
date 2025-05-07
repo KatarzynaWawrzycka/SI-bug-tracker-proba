@@ -31,8 +31,9 @@ class BugController extends AbstractController
     /**
      * Constructor.
      *
-     * @param BugServiceInterface $bugService Bug service
-     * @param TranslatorInterface $translator Translator
+     * @param BugServiceInterface $bugService         Bug service
+     * @param TranslatorInterface $translator         Translator
+     * @param CategoryRepository  $categoryRepository Category repository
      */
     public function __construct(private readonly BugServiceInterface $bugService, private readonly TranslatorInterface $translator, private readonly CategoryRepository $categoryRepository)
     {
@@ -41,7 +42,8 @@ class BugController extends AbstractController
     /**
      * Index action.
      *
-     * @param int $page Page number
+     * @param BugListInputFiltersDto $filters
+     * @param int                    $page    Page number
      *
      * @return Response HTTP response
      */
@@ -94,7 +96,7 @@ class BugController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'bug_create', methods: 'GET|POST', )]
+    #[Route('/create', name: 'bug_create', methods: 'GET|POST')]
     public function create(Request $request): Response
     {
         /** @var User $user */
