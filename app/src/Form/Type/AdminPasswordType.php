@@ -19,10 +19,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class AdminPasswordType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     *
-     * @return void
+     * @param FormBuilderInterface $builder Builder
+     * @param array                $options Options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -50,18 +48,13 @@ class AdminPasswordType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
-     *
-     * @return void
+     * @param OptionsResolver $resolver Resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([]);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'admin_password';

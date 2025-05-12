@@ -26,17 +26,15 @@ class AdminController extends AbstractController
 {
     /**
      * Constructor.
-     * @param TranslatorInterface         $translator
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param EntityManagerInterface      $entityManager
+     *
+     * @param TranslatorInterface         $translator     Translator
+     * @param UserPasswordHasherInterface $passwordHasher Password Hasher
+     * @param EntityManagerInterface      $entityManager  Entity Manager
      */
     public function __construct(private readonly TranslatorInterface $translator, private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $entityManager)
     {
     }
 
-    /**
-     * @return Response
-     */
     #[Route(name: 'admin_profile', methods: ['GET'])]
     public function profile(): Response
     {
@@ -54,9 +52,8 @@ class AdminController extends AbstractController
 
     /**
      * Edit email action.
-     * @param Request $request
      *
-     * @return Response
+     * @param Request $request Request
      */
     #[Route('/email', name: 'admin_edit_email', methods: ['GET', 'POST'])]
     public function editEmail(Request $request): Response
@@ -81,9 +78,8 @@ class AdminController extends AbstractController
 
     /**
      * Edit password action.
-     * @param Request $request
      *
-     * @return Response
+     * @param Request $request Request
      */
     #[Route('/password', name: 'admin_edit_password', methods: ['GET', 'POST'])]
     public function editPassword(Request $request): Response

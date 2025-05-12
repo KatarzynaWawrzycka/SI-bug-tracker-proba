@@ -220,7 +220,7 @@ class Bug
     }
 
     /**
-     * @param Tag $tag
+     * @param Tag $tag Tag
      *
      * @return $this
      */
@@ -234,7 +234,7 @@ class Bug
     }
 
     /**
-     * @param Tag $tag
+     * @param Tag $tag Tag
      *
      * @return $this
      */
@@ -245,16 +245,13 @@ class Bug
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
     /**
-     * @param User|null $author
+     * @param User|null $author Author
      *
      * @return $this
      */

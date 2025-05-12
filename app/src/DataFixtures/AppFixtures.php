@@ -16,7 +16,8 @@ class AppFixtures extends Fixture
 {
     /**
      * Load action.
-     * @param ObjectManager $manager
+     *
+     * @param ObjectManager $manager Manager
      */
     public function load(ObjectManager $manager): void
     {

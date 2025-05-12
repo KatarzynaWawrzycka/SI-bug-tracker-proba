@@ -66,7 +66,8 @@ class TagService implements TagServiceInterface
 
     /**
      * Delete entity.
-     * @param Tag $tag
+     *
+     * @param Tag $tag Tag
      */
     public function delete(Tag $tag): void
     {

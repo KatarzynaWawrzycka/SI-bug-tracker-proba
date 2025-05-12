@@ -146,16 +146,13 @@ class Tag
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
     /**
-     * @param string $slug
+     * @param string $slug Slug
      *
      * @return $this
      */

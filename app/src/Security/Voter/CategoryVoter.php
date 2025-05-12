@@ -21,10 +21,8 @@ final class CategoryVoter extends Voter
     public const SHOW = 'CATEGORY_SHOW';
 
     /**
-     * @param string $attribute
-     * @param mixed  $subject
-     *
-     * @return bool
+     * @param string $attribute Attribute
+     * @param mixed  $subject   Subject
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -33,11 +31,9 @@ final class CategoryVoter extends Voter
     }
 
     /**
-     * @param string         $attribute
-     * @param mixed          $subject
-     * @param TokenInterface $token
-     *
-     * @return bool
+     * @param string         $attribute Attribute
+     * @param mixed          $subject   Subject
+     * @param TokenInterface $token     Token
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
@@ -54,9 +50,8 @@ final class CategoryVoter extends Voter
 
     /**
      * Check if user has ROLE_ADMIN.
-     * @param UserInterface $user
      *
-     * @return bool
+     * @param UserInterface $user User
      */
     private function isAdmin(UserInterface $user): bool
     {

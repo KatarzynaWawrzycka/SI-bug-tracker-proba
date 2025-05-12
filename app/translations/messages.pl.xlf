@@ -58,6 +58,14 @@
             <source>message.category_contains_bugs</source>
             <target>Kategoria zawiera zgłoszenia.</target>
         </trans-unit>
+        <trans-unit id="message.email_updated">
+            <source>message.email_updated</source>
+            <target>Zmiana adresu email zakończona sukcesem.</target>
+        </trans-unit>
+        <trans-unit id="message.password_updated">
+            <source>message.password_updated</source>
+            <target>Zmiana hasła zakończona sukcesem.</target>
+        </trans-unit>
         <trans-unit id="title.bug_list">
             <source>title.bug_list</source>
             <target>Lista zgłoszeń:</target>
@@ -164,15 +172,15 @@
         </trans-unit>
         <trans-unit id="Bug delete:">
             <source>title.bug_delete</source>
-            <target>Ususwanie zgłoszenia #%id%:</target>
+            <target>Usuwanie zgłoszenia #%id%:</target>
         </trans-unit>
         <trans-unit id="Category delete:">
             <source>title.category_delete</source>
-            <target>Ususwanie kategorii #%id%:</target>
+            <target>Usuwanie kategorii #%id%:</target>
         </trans-unit>
         <trans-unit id="Tag delete:">
             <source>title.tag_delete</source>
-            <target>Ususwanie taga #%id%:</target>
+            <target>Usuwanie taga #%id%:</target>
         </trans-unit>
         <trans-unit id="Bug create:">
             <source>title.bug_create</source>

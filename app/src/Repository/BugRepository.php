@@ -45,7 +45,7 @@ class BugRepository extends ServiceEntityRepository
      * Query all records.
      *
      * @param User                   $author  User entity
-     * @param BugListFiltersDto|null $filters
+     * @param BugListFiltersDto|null $filters Filters
      *
      * @return QueryBuilder Query builder
      */
@@ -74,9 +74,8 @@ class BugRepository extends ServiceEntityRepository
 
     /**
      * Query public bugs (for unauthenticated users).
-     * @param BugListFiltersDto|null $filters
      *
-     * @return QueryBuilder
+     * @param BugListFiltersDto|null $filters Filters
      */
     public function queryPublicBugs(?BugListFiltersDto $filters = null): QueryBuilder
     {

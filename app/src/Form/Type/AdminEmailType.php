@@ -20,10 +20,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class AdminEmailType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     *
-     * @return void
+     * @param FormBuilderInterface $builder Builder
+     * @param array                $options Options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -38,9 +36,7 @@ class AdminEmailType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
-     *
-     * @return void
+     * @param OptionsResolver $resolver Resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -49,9 +45,6 @@ class AdminEmailType extends AbstractType
         ]);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'admin_email';

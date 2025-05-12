@@ -20,8 +20,8 @@ interface BugServiceInterface
      * Get paginated list.
      *
      * @param int                    $page    Page number
-     * @param User|null              $user
-     * @param BugListInputFiltersDto $filters
+     * @param User|null              $user    User
+     * @param BugListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface Paginated list
      */
