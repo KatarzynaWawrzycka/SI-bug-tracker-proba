@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Category repository.
  */
@@ -7,8 +8,6 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -60,7 +59,6 @@ class CategoryRepository extends ServiceEntityRepository
      * Delete entity.
      *
      * @param Category $category Category entity
-     *
      */
     public function delete(Category $category): void
     {

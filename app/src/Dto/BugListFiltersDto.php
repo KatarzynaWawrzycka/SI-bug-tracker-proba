@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bug list filters DTO.
  */
@@ -15,7 +16,7 @@ class BugListFiltersDto
     /**
      * Constructor.
      *
-     * @param Category|null $category   Category entity
+     * @param Category|null $category Category entity
      */
     public function __construct(public readonly ?Category $category)
     {

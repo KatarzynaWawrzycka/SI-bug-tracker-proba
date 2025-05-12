@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tag service.
  */
@@ -65,9 +66,7 @@ class TagService implements TagServiceInterface
 
     /**
      * Delete entity.
-     *
      * @param Tag $tag
-     * @return void
      */
     public function delete(Tag $tag): void
     {
@@ -80,6 +79,7 @@ class TagService implements TagServiceInterface
      * @param string $title Tag title
      *
      * @return Tag|null Tag entity
+     *
      * @throws NonUniqueResultException
      */
     public function findOneByTitle(string $title): ?Tag

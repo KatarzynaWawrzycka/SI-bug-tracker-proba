@@ -37,7 +37,7 @@ class Tag
     #[Assert\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 64)]
-    private ?string $title;
+    private ?string $title = null;
 
     /**
      * Created at.
@@ -45,7 +45,7 @@ class Tag
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
@@ -53,7 +53,7 @@ class Tag
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?\DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Slug.
@@ -62,7 +62,7 @@ class Tag
     #[Assert\Type('string')]
     #[Assert\Length(min: 3, max: 64)]
     #[Gedmo\Slug(fields: ['title'])]
-    private ?string $slug;
+    private ?string $slug = null;
 
     /**
      * Getter for Id.
@@ -88,6 +88,7 @@ class Tag
      * Setter for title.
      *
      * @param string $title Title
+     *
      * @return Tag
      */
     public function setTitle(string $title): static
@@ -111,6 +112,7 @@ class Tag
      * Setter for created at.
      *
      * @param \DateTimeImmutable $createdAt Created at
+     *
      * @return Tag
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
@@ -134,6 +136,7 @@ class Tag
      * Setter for updated at.
      *
      * @param \DateTimeImmutable $updatedAt Updated at
+     *
      * @return Tag
      */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
@@ -153,6 +156,7 @@ class Tag
 
     /**
      * @param string $slug
+     *
      * @return $this
      */
     public function setSlug(string $slug): static

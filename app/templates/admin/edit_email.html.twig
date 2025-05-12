@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.edit_email'|trans }}{% endblock %}
+
+{% block body %}
+    <h2>{{ 'title.edit_email'|trans }}</h2>
+
+    {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    <button type="submit" class="btn btn-primary">
+        {{ 'action.save'|trans }}
+    </button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('admin_profile') }}">{{ 'action.back'|trans }}</a>
+{% endblock %}

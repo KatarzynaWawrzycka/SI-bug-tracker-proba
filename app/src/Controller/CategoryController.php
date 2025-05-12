@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Category controller.
  */
@@ -37,6 +38,7 @@ class CategoryController extends AbstractController
      * Index action.
      *
      * @param int $page
+     *
      * @return Response HTTP response
      */
     #[Route(name: 'category_index', methods: 'GET')]

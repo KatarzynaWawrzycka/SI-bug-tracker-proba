@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bug List Input Filters Dto resolver.
  */

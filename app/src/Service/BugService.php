@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bug service.
  */
@@ -48,7 +49,7 @@ class BugService implements BugServiceInterface
     {
         $filters = $this->prepareFilters($filters);
 
-        if (null !== $user) {
+        if ($user instanceof User) {
             $query = $this->bugRepository->queryByAuthor($user, $filters);
         } else {
             $query = $this->bugRepository->queryPublicBugs($filters);

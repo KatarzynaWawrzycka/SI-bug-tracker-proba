@@ -1,4 +1,5 @@
 <?php
+
 /**
  * App Fixtures.
  */
@@ -15,9 +16,7 @@ class AppFixtures extends Fixture
 {
     /**
      * Load action.
-     *
      * @param ObjectManager $manager
-     * @return void
      */
     public function load(ObjectManager $manager): void
     {

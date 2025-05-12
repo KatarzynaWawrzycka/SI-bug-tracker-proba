@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bug controller.
  */
@@ -52,7 +53,7 @@ class BugController extends AbstractController
     {
         $user = $this->getUser();
 
-        if ($user) {
+        if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             /** @var User $author */
             $author = $this->getUser();
             $pagination = $this->bugService->getPaginatedList($page, $author, $filters);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Category service.
  */
@@ -33,8 +34,8 @@ class CategoryService implements CategoryServiceInterface
      * Constructor.
      *
      * @param CategoryRepository $categoryRepository Category repository
-     * @param PaginatorInterface $paginator Paginator
-     * @param BugRepository $bugRepository
+     * @param PaginatorInterface $paginator          Paginator
+     * @param BugRepository      $bugRepository
      */
     public function __construct(private readonly CategoryRepository $categoryRepository, private readonly PaginatorInterface $paginator, private readonly BugRepository $bugRepository)
     {
@@ -68,6 +69,7 @@ class CategoryService implements CategoryServiceInterface
 
     /**
      * Delete entity.
+     * @param Category $category
      */
     public function delete(Category $category): void
     {
@@ -87,7 +89,7 @@ class CategoryService implements CategoryServiceInterface
         try {
             $result = $this->bugRepository->countByCategory($category);
 
-            return !($result > 0);
+            return $result <= 0;
         } catch (NoResultException|NonUniqueResultException) {
             return false;
         }

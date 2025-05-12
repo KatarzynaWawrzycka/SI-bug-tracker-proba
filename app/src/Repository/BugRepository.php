@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bug repository.
  */
@@ -43,8 +44,9 @@ class BugRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
-     * @param User $author User entity
+     * @param User                   $author  User entity
      * @param BugListFiltersDto|null $filters
+     *
      * @return QueryBuilder Query builder
      */
     public function queryByAuthor(User $author, ?BugListFiltersDto $filters = null): QueryBuilder
@@ -63,7 +65,7 @@ class BugRepository extends ServiceEntityRepository
                 ->setParameter('author', $author);
         }
 
-        if ($filters) {
+        if ($filters instanceof BugListFiltersDto) {
             $qb = $this->applyFiltersToList($qb, $filters);
         }
 
@@ -73,6 +75,7 @@ class BugRepository extends ServiceEntityRepository
     /**
      * Query public bugs (for unauthenticated users).
      * @param BugListFiltersDto|null $filters
+     *
      * @return QueryBuilder
      */
     public function queryPublicBugs(?BugListFiltersDto $filters = null): QueryBuilder
@@ -87,7 +90,7 @@ class BugRepository extends ServiceEntityRepository
             ->leftJoin('bug.tags', 'tags')
             ->orderBy('bug.updatedAt', 'DESC');
 
-        if ($filters) {
+        if ($filters instanceof BugListFiltersDto) {
             $qb = $this->applyFiltersToList($qb, $filters);
         }
 

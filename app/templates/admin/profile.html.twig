@@ -1,6 +1,23 @@
-{% include 'default/_form.html.twig' with {
-    page_title: 'title.admin_profile_edit'|trans,
-    form: form,
-    submit_label: 'action.edit'|trans,
-    back_to_list_path: 'bug_index',
-} %}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.admin_profile'|trans }}{% endblock %}
+
+{% block body %}
+    <h2>{{ 'title.admin_profile'|trans }}</h2>
+
+    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <p>
+            <strong>{{ 'label.email'|trans }}</strong> {{ user.email }}
+        </p>
+        <a href="{{ path('admin_edit_email') }}" class="btn btn-primary">{{ 'action.edit'|trans }}</a>
+    </div>
+
+    <div style="display: flex; align-items: center;">
+        <p>
+            <strong>{{ 'label.password'|trans }}</strong> ************
+        </p>
+        <a href="{{ path('admin_edit_password') }}" class="btn btn-primary">{{ 'action.edit'|trans }}</a>
+    </div>
+
+    <a href="{{ path('bug_index') }}">{{ 'action.back'|trans }}</a>
+{% endblock %}

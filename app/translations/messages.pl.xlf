@@ -206,6 +206,10 @@
             <source>action.filter</source>
             <target>Filtruj</target>
         </trans-unit>
+        <trans-unit id="action back">
+            <source>action.back</source>
+            <target>Powrót</target>
+        </trans-unit>
         <trans-unit id="title admin profile edit">
             <source>title.admin_profile_edit</source>
             <target>Edycja danych profilu</target>
@@ -214,6 +218,10 @@
             <source>label.email</source>
             <target>email:</target>
         </trans-unit>
+        <trans-unit id="label password">
+            <source>label.password</source>
+            <target>hasło:</target>
+        </trans-unit>
         <trans-unit id="label new password">
             <source>label.new_password</source>
             <target>nowe hasło:</target>
@@ -221,6 +229,18 @@
         <trans-unit id="label confirm password">
             <source>label.confirm_password</source>
             <target>potwierdź hasło:</target>
+        </trans-unit>
+        <trans-unit id="title admin profile">
+            <source>title.admin_profile</source>
+            <target>Profil administratora</target>
+        </trans-unit>
+        <trans-unit id="title edit email">
+            <source>title.edit_email</source>
+            <target>Zmiana adresu email</target>
+        </trans-unit>
+        <trans-unit id="title edit password">
+            <source>title.edit_password</source>
+            <target>Zmiana hasła</target>
         </trans-unit>
     </body>
 </file>

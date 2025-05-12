@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Category service interface.
  */
@@ -24,12 +25,14 @@ interface CategoryServiceInterface
 
     /**
      * @param Category $category
+     *
      * @return void
      */
     public function save(Category $category): void;
 
     /**
      * @param Category $category
+     *
      * @return void
      */
     public function delete(Category $category): void;

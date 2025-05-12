@@ -37,7 +37,7 @@ class Bug
     #[Assert\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    private ?string $title;
+    private ?string $title = null;
 
     /**
      * Description.
@@ -53,7 +53,7 @@ class Bug
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
@@ -87,7 +87,7 @@ class Bug
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
     #[Assert\Type(User::class)]
-    private ?User $author;
+    private ?User $author = null;
 
     /**
      * Bug constructor.
@@ -201,6 +201,7 @@ class Bug
      * Setter for category.
      *
      * @param Category|null $category Category
+     *
      * @return Bug
      */
     public function setCategory(?Category $category): static
@@ -220,6 +221,7 @@ class Bug
 
     /**
      * @param Tag $tag
+     *
      * @return $this
      */
     public function addTag(Tag $tag): static
@@ -233,6 +235,7 @@ class Bug
 
     /**
      * @param Tag $tag
+     *
      * @return $this
      */
     public function removeTag(Tag $tag): static
@@ -252,6 +255,7 @@ class Bug
 
     /**
      * @param User|null $author
+     *
      * @return $this
      */
     public function setAuthor(?User $author): static

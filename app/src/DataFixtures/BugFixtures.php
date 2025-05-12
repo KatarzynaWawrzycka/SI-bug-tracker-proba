@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bug fixtures.
  */
@@ -7,7 +8,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Bug;
 use App\Entity\Category;
-use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
@@ -48,12 +48,12 @@ class BugFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
             $category = $this->getRandomReference('categories');
             $bug->setCategory($category);
 
-            $randomTags = $this->getRandomReferences('tags', rand(2, 3));
+            $randomTags = $this->getRandomReferences('tags', random_int(2, 3));
             foreach ($randomTags as $tag) {
                 $bug->addTag($tag);
             }
 
-            $author = $this->getRandomReference('user', User::class);
+            $author = $this->getRandomReference('user');
             $bug->setAuthor($author);
 
             return $bug;

@@ -115,8 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Setter for roles.
-     *
-     * @param list<int, string> $roles Roles
+     * @param array $roles
      */
     public function setRoles(array $roles): void
     {
