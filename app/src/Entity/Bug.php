@@ -89,8 +89,8 @@ class Bug
     #[Assert\Type(User::class)]
     private ?User $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'bug', targetEntity: Comment::class, orphanRemoval: true)]
-    private Collection $comments;
+  //  #[ORM\OneToMany(mappedBy: 'bug', targetEntity: Comment::class, orphanRemoval: true)]
+    //private Collection $comments;
 
     /**
      * Bug constructor.
@@ -98,12 +98,6 @@ class Bug
     public function __construct()
     {
         $this->tags = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-    }
-
-    public function getComments(): Collection
-    {
-        return $this->comments;
     }
 
     /**

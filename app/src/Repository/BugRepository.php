@@ -55,14 +55,10 @@ class BugRepository extends ServiceEntityRepository
             ->select(
                 'partial bug.{id, createdAt, updatedAt, title, description}',
                 'partial category.{id, title}',
-                'partial tags.{id, title}',
-                'partial comments.{id, content, updatedAt}',
-                'partial commentAuthor.{id, email}'
+                'partial tags.{id, title}'
             )
             ->join('bug.category', 'category')
-            ->leftJoin('bug.tags', 'tags')
-            ->leftJoin('bug.comments', 'comments')
-            ->leftJoin('comments.author', 'commentAuthor');
+            ->leftJoin('bug.tags', 'tags');
 
         if (!in_array('ROLE_ADMIN', $author->getRoles(), true)) {
             $qb->andWhere('bug.author = :author')
@@ -87,14 +83,10 @@ class BugRepository extends ServiceEntityRepository
             ->select(
                 'partial bug.{id, createdAt, updatedAt, title, description}',
                 'partial category.{id, title}',
-                'partial tags.{id, title}',
-                'partial comments.{id, content, updatedAt}',
-                'partial commentAuthor.{id, email}'
+                'partial tags.{id, title}'
             )
             ->join('bug.category', 'category')
             ->leftJoin('bug.tags', 'tags')
-            ->leftJoin('bug.comments', 'comments')
-            ->leftJoin('comments.author', 'commentAuthor')
             ->orderBy('bug.updatedAt', 'DESC');
 
         if ($filters instanceof BugListFiltersDto) {

@@ -30,12 +30,15 @@ class Comment
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Bug::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\Type(Bug::class)]
+    #[Assert\NotBlank]
     private ?Bug $bug = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?User $author = null;
 
     public function getId(): ?int

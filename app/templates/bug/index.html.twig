@@ -32,7 +32,7 @@
             <select id="categoryId" name="categoryId" class="form-control">
                 <option value="">{{ 'label.all_categories'|trans }}</option>
                 {% for category in categories %}
-                    <option value="{{ category.id }}" {% if category.id == app.request.query.get('category') %}selected{% endif %}>
+                    <option value="{{ category.id }}" {% if category.id == app.request.query.get('categoryId') %}selected{% endif %}>
                         {{ category.title }}
                     </option>
                 {% endfor %}
@@ -76,11 +76,9 @@
                     </div>
                     <div class="bug-actions d-flex flex-column align-items-end">
                         <p>
-                            {% if is_granted('BUG_SHOW', bug) %}
                             <a href="{{ url('bug_show', {id:bug.id}) }}" class="btn btn-primary" title="{{ 'action.show|trans' }}">
                                 {{ 'action.show'|trans }}
                             </a>
-                            {% endif %}
                         </p>
                         <p>
                             {% if is_granted('BUG_EDIT', bug) %}

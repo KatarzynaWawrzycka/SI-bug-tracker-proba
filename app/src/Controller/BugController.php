@@ -8,12 +8,16 @@ namespace App\Controller;
 
 use App\Dto\BugListInputFiltersDto;
 use App\Entity\Bug;
+use App\Entity\Comment;
 use App\Entity\User;
 use App\Form\Type\BugType;
+use App\Form\Type\CommentType;
 use App\Resolver\BugListInputFiltersDtoResolver;
 use App\Security\Voter\BugVoter;
 use App\Service\BugServiceInterface;
 use App\Service\CategoryServiceInterface;
+use App\Service\CommentServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +40,7 @@ class BugController extends AbstractController
      * @param TranslatorInterface      $translator               Translator
      * @param CategoryServiceInterface $categoryServiceInterface Category service interface
      */
-    public function __construct(private readonly BugServiceInterface $bugService, private readonly TranslatorInterface $translator, private readonly CategoryServiceInterface $categoryServiceInterface)
+    public function __construct(private readonly BugServiceInterface $bugService, private readonly TranslatorInterface $translator, private readonly CategoryServiceInterface $categoryServiceInterface, private readonly CommentServiceInterface $commentServiceInterface)
     {
     }
 
@@ -71,19 +75,48 @@ class BugController extends AbstractController
     #[Route('/{id}', name: 'bug_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
     public function show(Bug $bug): Response
     {
+        $comments = $this->commentServiceInterface->findByBug($bug);
+
+        return $this->render('bug/show.html.twig', [
+            'bug' => $bug,
+            'comments' => $comments,
+        ]);
+    }
+
+    #[Route('/{id}/comment', name: 'bug_comment', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
+    public function comment(Request $request, Bug $bug, EntityManagerInterface $entityManager): Response
+    {
         $user = $this->getUser();
 
-        if (!$this->isGranted(BugVoter::SHOW, $bug)) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.record_not_found')
-            );
-
-            return $this->redirectToRoute('bug_index');
+        if (!$user) {
+            $this->addFlash('warning', $this->translator->trans('access_denied'));
+            return $this->redirectToRoute('bug_show', ['id' => $bug->getId()]);
         }
 
-        return $this->render('bug/show.html.twig', ['bug' => $bug]);
+        $comment = new Comment();
+        $comment->setBug($bug);
+        $comment->setAuthor($user);
+        $comment->setCreatedAt(new \DateTimeImmutable());
+        $comment->setUpdatedAt(new \DateTimeImmutable());
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('message.comment_added'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bug->getId()]);
+        }
+
+        return $this->render('bug/comment.html.twig', [
+            'form' => $form->createView(),
+            'bug' => $bug,
+        ]);
     }
+
 
     /**
      * Create action.

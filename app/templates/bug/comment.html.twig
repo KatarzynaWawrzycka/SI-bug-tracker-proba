@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.add_comment'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.add_comment'|trans }}</h1>
+
+    <p class="mb-2 text-muted">
+        {{ 'label.comment_for_bug'|trans }}: <strong>#{{ bug.id }}</strong> – {{ bug.title }}
+    </p>
+
+    {{ form_start(form) }}
+    {{ form_row(form.content) }}
+    <button class="btn btn-primary mt-3" type="submit">
+        {{ 'action.add_comment'|trans }}
+    </button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('bug_show', {'id': bug.id}) }}" class="btn btn-outline-secondary mt-3">
+        {{ 'action.back'|trans }}
+    </a>
+{% endblock %}

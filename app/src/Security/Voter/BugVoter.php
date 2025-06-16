@@ -30,12 +30,7 @@ final class BugVoter extends Voter
      */
     public const EDIT = 'BUG_EDIT';
 
-    /**
-     * Show permission.
-     *
-     * @const string
-     */
-    public const SHOW = 'BUG_SHOW';
+    public const COMMENT = 'BUG_COMMENT';
 
     /**
      * Determines if the attribute and subject are supported by this voter.
@@ -47,7 +42,7 @@ final class BugVoter extends Voter
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::DELETE, self::EDIT, self::SHOW])
+        return in_array($attribute, [self::DELETE, self::EDIT, self::COMMENT])
             && $subject instanceof Bug;
     }
 
@@ -74,7 +69,7 @@ final class BugVoter extends Voter
         return match ($attribute) {
             self::EDIT => $this->canEdit($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
-            self::SHOW => $this->canShow($subject, $user),
+            self::COMMENT => $this->canComment($user),
             default => false,
         };
     }
@@ -113,24 +108,8 @@ final class BugVoter extends Voter
         return $bug->getAuthor() === $user;
     }
 
-    /**
-     * Checks if user can show bug.
-     *
-     * @param Bug           $bug  Bug entity
-     * @param UserInterface $user User
-     *
-     * @return bool Result
-     */
-    private function canShow(Bug $bug, UserInterface $user): bool
+    private function canComment(?UserInterface $user): bool
     {
-        if (!$user) {
-            return true;
-        }
-
-        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
-            return true;
-        }
-
-        return $bug->getAuthor() === $user;
+        return $user instanceof UserInterface;
     }
 }
