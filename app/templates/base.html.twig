@@ -17,15 +17,12 @@
     {% if app.user %}
         <div>
             {{ 'Logged in as'|trans }}
-            {% if 'ROLE_ADMIN' in app.user.roles %}
-                <a href="{{ path('admin_profile') }}"><strong>{{ app.user.email }}</strong></a>
-            {% else %}
-                <strong>{{ app.user.email }}</strong>
-            {% endif %}
+                <a href="{{ path('profile') }}"><strong>{{ app.user.email }}</strong></a>
             <a href="{{ path('app_logout') }}" class="btn btn-sm btn-outline-secondary ms-2">{{ 'action.logout'|trans }}</a>
         </div>
     {% else %}
         <a href="{{ path('app_login') }}" class="btn btn-sm btn-primary">{{ 'action.sign_in'|trans }}</a>
+        <a href="{{ path('app_register') }}" class="btn btn-sm btn-primary">{{ 'action.sign_up'|trans }}</a>
     {% endif %}
 </header>
 

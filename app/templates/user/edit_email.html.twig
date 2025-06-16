@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.edit_email'|trans }}{% endblock %}
+
+{% block body %}
+    <h2>{{ 'title.edit_email'|trans }} — {{ user.email }}</h2>
+
+    {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    <button class="btn btn-primary">{{ 'action.save'|trans }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('user_show', {id: user.id}) }}" class="btn btn-secondary mt-3">
+        {{ 'action.back'|trans }}
+    </a>
+{% endblock %}

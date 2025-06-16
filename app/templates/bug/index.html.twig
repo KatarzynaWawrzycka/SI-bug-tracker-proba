@@ -6,44 +6,48 @@
 
 {% block body %}
     <h1>{{ 'title.bug_list'|trans }}</h1>
-    {% if pagination is defined and pagination.items|length %}
-
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div>
-                <a href="{{ path('bug_create') }}" class="btn btn-primary">
-                    {{ 'action.create_new_bug'|trans }}
-                </a>
-            </div>
-        {% endif %}
-            <div class="ms-auto">
-                <a href="{{ path('category_index') }}" class="btn btn-outline-secondary me-2">
-                    {{ 'label.categories'|trans }}
-                </a>
-                <a href="{{ path('tag_index') }}" class="btn btn-outline-secondary">
-                    {{ 'label.tags'|trans }}
-                </a>
-            </div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div>
+            <a href="{{ path('bug_create') }}" class="btn btn-primary">
+                {{ 'action.create_new_bug'|trans }}
+            </a>
         </div>
+    {% endif %}
+    <div class="ms-auto">
+        <a href="{{ path('category_index') }}" class="btn btn-outline-secondary me-2">
+            {{ 'label.categories'|trans }}
+        </a>
+        <a href="{{ path('tag_index') }}" class="btn btn-outline-secondary">
+            {{ 'label.tags'|trans }}
+        </a>
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('user_index') }}" class="btn btn-outline-secondary me-2">
+            {{ 'label.users'|trans }}
+        </a>
+    {% endif %}
+    <form method="get" action="{{ path('bug_index') }}" class="mb-3">
+        <div class="form-group">
+            <label for="category">{{ 'label.filter_by_category'|trans }}</label>
+            <select id="categoryId" name="categoryId" class="form-control">
+                <option value="">{{ 'label.all_categories'|trans }}</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category.id == app.request.query.get('category') %}selected{% endif %}>
+                        {{ category.title }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">
+            {{ 'action.filter'|trans }}
+        </button>
+    </form>
 
-        <form method="get" action="{{ path('bug_index') }}" class="mb-3">
-            <div class="form-group">
-                <label for="category">{{ 'label.filter_by_category'|trans }}</label>
-                <select id="categoryId" name="categoryId" class="form-control">
-                    <option value="">{{ 'label.all_categories'|trans }}</option>
-                    {% for category in categories %}
-                        <option value="{{ category.id }}" {% if category.id == app.request.query.get('category') %}selected{% endif %}>
-                            {{ category.title }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary mt-2">
-                {{ 'action.filter'|trans }}
-            </button>
-        </form>
 
+    {% if pagination is defined and pagination.items|length %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+        </div>
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>

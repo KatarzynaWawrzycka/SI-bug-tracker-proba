@@ -69,6 +69,8 @@ class CategoryService implements CategoryServiceInterface
 
     /**
      * Delete entity.
+     *
+     * @param Category $category Category
      */
     public function delete(Category $category): void
     {
@@ -106,5 +108,15 @@ class CategoryService implements CategoryServiceInterface
     public function findOneById(int $id): ?Category
     {
         return $this->categoryRepository->findOneById($id);
+    }
+
+    /**
+     * Get all categories.
+     *
+     * @return Category[] List of all categories
+     */
+    public function findAll(): array
+    {
+        return $this->categoryRepository->findAll();
     }
 }

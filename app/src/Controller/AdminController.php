@@ -1,116 +1,108 @@
 <?php
 
-/**
- * Admin Controller.
- */
-
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\Type\AdminEmailType;
-use App\Form\Type\AdminPasswordType;
+use App\Form\Type\UserEmailType;
+use App\Form\Type\UserPasswordType;
+use App\Service\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Class AdminController.
- */
-#[Route('/admin')]
+#[Route('/user')]
 class AdminController extends AbstractController
 {
-    /**
-     * Constructor.
-     *
-     * @param TranslatorInterface         $translator     Translator
-     * @param UserPasswordHasherInterface $passwordHasher Password Hasher
-     * @param EntityManagerInterface      $entityManager  Entity Manager
-     */
-    public function __construct(private readonly TranslatorInterface $translator, private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $entityManager)
+    #[Route(name: 'user_index')]
+    public function index(Request $request, UserServiceInterface $userService): Response
     {
-    }
-
-    #[Route(name: 'admin_profile', methods: ['GET'])]
-    public function profile(): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException();
+        if (!$this->isGranted('USER_INDEX')) {
+            $this->addFlash('warning', 'Access denied.');
+            return $this->redirectToRoute('bug_index');
         }
 
-        return $this->render('admin/profile.html.twig', [
+        $pagination = $userService->getPaginatedUsers($request);
+
+        return $this->render('user/index.html.twig', [
+            'pagination' => $pagination,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'user_show')]
+    public function show(User $user): Response
+    {
+        if (!$this->isGranted('USER_SHOW', $user)) {
+            $this->addFlash('warning', 'Access denied.');
+            return $this->redirectToRoute('bug_index');
+        }
+
+        return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
     }
 
-    /**
-     * Edit email action.
-     *
-     * @param Request $request Request
-     */
-    #[Route('/email', name: 'admin_edit_email', methods: ['GET', 'POST'])]
-    public function editEmail(Request $request): Response
+    #[Route('/{id}/edit-email', name: 'user_edit_email')]
+    public function editEmail(User $user, Request $request, EntityManagerInterface $entityManager): Response
     {
-        /** @var User $user */
-        $user = $this->getUser();
+        if (!$this->isGranted('USER_EDIT_EMAIL', $user)) {
+            $this->addFlash('warning', 'Access denied.');
+            return $this->redirectToRoute('bug_index');
+        }
 
-        $form = $this->createForm(AdminEmailType::class, $user);
+        $form = $this->createForm(UserEmailType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->flush();
-            $this->addFlash('success', $this->translator->trans('message.email_updated'));
+            $entityManager->flush();
 
-            return $this->redirectToRoute('admin_profile');
+            $this->addFlash('success', 'Email updated successfully.');
+
+            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
         }
 
-        return $this->render('admin/edit_email.html.twig', [
+        return $this->render('user/edit_email.html.twig', [
             'form' => $form->createView(),
+            'user' => $user,
         ]);
     }
 
-    /**
-     * Edit password action.
-     *
-     * @param Request $request Request
-     */
-    #[Route('/password', name: 'admin_edit_password', methods: ['GET', 'POST'])]
-    public function editPassword(Request $request): Response
+    #[Route('/{id}/edit-password', name: 'user_edit_password')]
+    public function editPassword(User $user, Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
-        /** @var User $user */
-        $user = $this->getUser();
+        if (!$this->isGranted('USER_EDIT_PASSWORD', $user)) {
+            $this->addFlash('warning', 'Access denied.');
+            return $this->redirectToRoute('bug_index');
+        }
 
-        $form = $this->createForm(AdminPasswordType::class);
+        $form = $this->createForm(UserPasswordType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
             $confirmPassword = $form->get('confirmPassword')->getData();
 
-            if (empty($plainPassword) || empty($confirmPassword)) {
-                $form->get('confirmPassword')->addError(new FormError('Oba pola hasła muszą być wypełnione.'));
-            } elseif ($plainPassword !== $confirmPassword) {
-                $form->get('confirmPassword')->addError(new FormError('Hasła nie są takie same.'));
+            if ($plainPassword !== $confirmPassword) {
+                $form->addError(new FormError('Passwords do not match.'));
             } else {
-                $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
                 $user->setPassword($hashedPassword);
-                $this->entityManager->flush();
 
-                $this->addFlash('success', $this->translator->trans('message.password_updated'));
+                $entityManager->flush();
 
-                return $this->redirectToRoute('admin_profile');
+                $this->addFlash('success', 'Password updated successfully.');
+
+                return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
             }
         }
 
-        return $this->render('admin/edit_password.html.twig', [
+        return $this->render('user/edit_password.html.twig', [
             'form' => $form->createView(),
+            'user' => $user,
         ]);
     }
 }

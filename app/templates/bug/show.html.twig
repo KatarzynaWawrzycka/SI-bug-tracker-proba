@@ -25,6 +25,21 @@
                 {{ bug.tags|map(tag => tag.title)|join(', ') }}
             </dd>
         </dl>
+
+        <h2>{{ 'label.comments'|trans }}</h2>
+        {% if bug.comments is defined and bug.comments|length > 0 %}
+            <ul>
+                {% for comment in bug.comments %}
+                    <li>
+                        <p><strong>{{ comment.author.email }}</strong> ({{ comment.updatedAt|format_datetime('medium') }})</p>
+                        <p>{{ comment.content }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ 'label.no_comments'|trans }}</p>
+        {% endif %}
+
         <p>
             <a href="{{ url('bug_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}

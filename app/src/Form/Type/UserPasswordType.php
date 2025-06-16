@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Admin Password Type.
+ * User Password Type.
  */
 
 namespace App\Form\Type;
@@ -14,9 +14,9 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class AdminPasswordType.
+ * Class UserPasswordType.
  */
-class AdminPasswordType extends AbstractType
+class UserPasswordType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder Builder
@@ -57,6 +57,6 @@ class AdminPasswordType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'admin_password';
+        return 'edit_password';
     }
 }

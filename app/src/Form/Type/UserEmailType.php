@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Admin Email Type.
+ * User Email Type.
  */
 
 namespace App\Form\Type;
@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class AdminEmailType.
+ * Class UserEmailType.
  */
-class AdminEmailType extends AbstractType
+class UserEmailType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder Builder
@@ -47,6 +47,6 @@ class AdminEmailType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'admin_email';
+        return 'edit_email';
     }
 }

@@ -115,7 +115,7 @@
         "fakerphp/faker": "*",
         "friendsofphp/php-cs-fixer": "*",
         "phpunit/phpunit": "^9.5",
-        "rector/rector": "^1.1",
+        "rector/rector": "*",
         "squizlabs/php_codesniffer": "*",
         "symfony/browser-kit": "6.4.*",
         "symfony/css-selector": "6.4.*",

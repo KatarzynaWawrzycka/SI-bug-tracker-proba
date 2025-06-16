@@ -10,10 +10,10 @@ use App\Dto\BugListInputFiltersDto;
 use App\Entity\Bug;
 use App\Entity\User;
 use App\Form\Type\BugType;
-use App\Repository\CategoryRepository;
 use App\Resolver\BugListInputFiltersDtoResolver;
 use App\Security\Voter\BugVoter;
 use App\Service\BugServiceInterface;
+use App\Service\CategoryServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,11 +32,11 @@ class BugController extends AbstractController
     /**
      * Constructor.
      *
-     * @param BugServiceInterface $bugService         Bug service
-     * @param TranslatorInterface $translator         Translator
-     * @param CategoryRepository  $categoryRepository Category repository
+     * @param BugServiceInterface      $bugService               Bug service
+     * @param TranslatorInterface      $translator               Translator
+     * @param CategoryServiceInterface $categoryServiceInterface Category service interface
      */
-    public function __construct(private readonly BugServiceInterface $bugService, private readonly TranslatorInterface $translator, private readonly CategoryRepository $categoryRepository)
+    public function __construct(private readonly BugServiceInterface $bugService, private readonly TranslatorInterface $translator, private readonly CategoryServiceInterface $categoryServiceInterface)
     {
     }
 
@@ -51,19 +51,14 @@ class BugController extends AbstractController
     #[Route(name: 'bug_index', methods: 'GET')]
     public function index(#[MapQueryString(resolver: BugListInputFiltersDtoResolver::class)] BugListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
-        $user = $this->getUser();
+        $pagination = $this->bugService->getPaginatedList($page, null, $filters);
 
-        if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
-            /** @var User $author */
-            $author = $this->getUser();
-            $pagination = $this->bugService->getPaginatedList($page, $author, $filters);
-        } else {
-            $pagination = $this->bugService->getPaginatedList($page, null, $filters);
-        }
+        $categories = $this->categoryServiceInterface->findAll();
 
-        $categories = $this->categoryRepository->findAll();
-
-        return $this->render('bug/index.html.twig', ['pagination' => $pagination, 'categories' => $categories]);
+        return $this->render('bug/index.html.twig', [
+            'pagination' => $pagination,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -138,7 +133,7 @@ class BugController extends AbstractController
         if (!$this->isGranted(BugVoter::EDIT, $bug)) {
             $this->addFlash(
                 'warning',
-                $this->translator->trans('message.record_not_found')
+                $this->translator->trans('record_not_found')
             );
 
             return $this->redirectToRoute('bug_index');

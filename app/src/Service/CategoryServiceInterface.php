@@ -10,7 +10,7 @@ use App\Entity\Category;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
- * Interface BugServiceInterface.
+ * Interface CategoryServiceInterface.
  */
 interface CategoryServiceInterface
 {
@@ -23,8 +23,16 @@ interface CategoryServiceInterface
      */
     public function getPaginatedList(int $page): PaginationInterface;
 
+    /**
+     * @param Category $category Category
+     */
     public function save(Category $category): void;
 
+    /**
+     * @param Category $category Category
+     *
+     * @return void Void
+     */
     public function delete(Category $category): void;
 
     /**
@@ -35,4 +43,11 @@ interface CategoryServiceInterface
      * @return bool Result
      */
     public function canBeDeleted(Category $category): bool;
+
+    /**
+     * Get all categories.
+     *
+     * @return Category[] List of all categories
+     */
+    public function findAll(): array;
 }
