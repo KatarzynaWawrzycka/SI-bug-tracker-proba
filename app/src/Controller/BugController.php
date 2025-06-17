@@ -202,6 +202,12 @@ class BugController extends AbstractController
     #[Route('/{id}/close', name: 'bug_close', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST|PUT')]
     public function close(Request $request, Bug $bug): Response
     {
+        if (!$this->isGranted('BUG_CLOSE', $bug)) {
+            $this->addFlash('warning', $this->translator->trans('access_denied'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bug->getId()]);
+        }
+
         $form = $this->createForm(
             FormType::class,
             $bug,
@@ -229,6 +235,12 @@ class BugController extends AbstractController
     #[Route('/{id}/archive', name: 'bug_archive', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST', 'PUT'])]
     public function archive(Request $request, Bug $bug): Response
     {
+        if (!$this->isGranted('BUG_ARCHIVE', $bug)) {
+            $this->addFlash('warning', $this->translator->trans('access_denied'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bug->getId()]);
+        }
+
         $form = $this->createForm(
             FormType::class,
             $bug,

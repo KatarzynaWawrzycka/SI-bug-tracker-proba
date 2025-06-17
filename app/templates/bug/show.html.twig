@@ -39,17 +39,6 @@
                             {{ 'label.status_pending'|trans }}
                         {% endif %}
                     </div>
-                    {% if not bug.isClosed %}
-                        <form method="post" action="{{ path('bug_close', {'id': bug.id}) }}" onsubmit="return confirm('{{ 'message.confirm_close'|trans }}');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('close' ~ bug.id) }}">
-                            <button class="btn btn-warning" type="submit">{{ 'action.close'|trans }}</button>
-                        </form>
-                    {% elseif bug.isClosed and not bug.isArchived %}
-                        <form method="post" action="{{ path('bug_archive', {'id': bug.id}) }}" onsubmit="return confirm('{{ 'message.confirm_archive'|trans }}');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('archive' ~ bug.id) }}">
-                            <button class="btn btn-secondary" type="submit">{{ 'action.archive'|trans }}</button>
-                        </form>
-                    {% endif %}
                 </div>
                 <div class="mb-4">
                     <div class="fw-bold">{{ 'label.title'|trans }}</div>
@@ -64,10 +53,11 @@
                     </div>
                 </div>
             </div>
-            <div class="comments-container w-50 ps-md-4 mt-4 mt-md-0" style="box-sizing: border-box;">
-                <h2 class="h5 m-0">{{ 'label.comments'|trans }}</h2>
+
+            <div class="comments-container w-50 ps-md-4" style="box-sizing: border-box;">
+                <h2 class="h5">{{ 'label.comments'|trans }}</h2>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a href="{{ path('bug_comment', {'id': bug.id}) }}" class="btn btn-success btn-sm">
+                    <a href="{{ path('bug_comment', {'id': bug.id}) }}" class="btn btn-primary btn-sm mb-3">
                         {{ 'action.add_comment'|trans }}
                     </a>
                 {% endif %}
@@ -83,27 +73,39 @@
                             <div class="comment-content">
                                 {{ comment.content }}
                             </div>
-
-                            <div style="display: flex; flex-direction: row;">
+                            <div class="d-flex gap-2 mt-2">
                                 {% if is_granted('EDIT', comment) %}
-                                    <a href="{{ path('bug_comment_edit', {'bugId': bug.id, 'commentId': comment.id}) }}" class="btn btn-sm btn-outline-primary mt-2">
+                                    <a href="{{ path('bug_comment_edit', {'bugId': bug.id, 'commentId': comment.id}) }}" class="btn btn-sm btn-outline-primary">
                                         {{ 'action.edit'|trans }}
                                     </a>
                                 {% endif %}
                                 {% if is_granted('DELETE', comment) %}
                                     <a href="{{ path('bug_comment_delete', {'bugId': bug.id, 'commentId': comment.id}) }}"
-                                       class="btn btn-sm btn-outline-danger mt-2">
+                                       class="btn btn-sm btn-outline-danger">
                                         {{ 'action.delete'|trans }}
                                     </a>
                                 {% endif %}
                             </div>
                         </div>
                     {% endfor %}
-
                 {% else %}
                     <p class="text-muted">{{ 'label.no_comments'|trans }}</p>
                 {% endif %}
             </div>
+        </div>
+
+        <div class="mt-4">
+            {% if is_granted('BUG_CLOSE', bug) and not bug.isClosed %}
+                <a href="{{ path('bug_close', {id: bug.id}) }}" class="btn btn-primary me-2">
+                    {{ 'action.close'|trans }}
+                </a>
+
+            {% elseif is_granted('BUG_ARCHIVE', bug) and bug.isClosed and not bug.isArchived %}
+                <a href="{{ path('bug_archive', {id: bug.id}) }}" class="btn btn-primary me-2">
+                    {{ 'action.archive'|trans }}
+                </a>
+
+            {% endif %}
         </div>
     {% else %}
         <p class="alert alert-warning">{{ 'message.record_not_found'|trans }}</p>

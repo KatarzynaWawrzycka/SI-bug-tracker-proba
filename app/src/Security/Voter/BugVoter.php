@@ -32,6 +32,10 @@ final class BugVoter extends Voter
 
     public const COMMENT = 'BUG_COMMENT';
 
+    public const CLOSE = 'BUG_CLOSE';
+
+    public const ARCHIVE = 'BUG_ARCHIVE';
+
     /**
      * Determines if the attribute and subject are supported by this voter.
      *
@@ -42,7 +46,7 @@ final class BugVoter extends Voter
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::DELETE, self::EDIT, self::COMMENT])
+        return in_array($attribute, [self::DELETE, self::EDIT, self::COMMENT, self::CLOSE, self::ARCHIVE])
             && $subject instanceof Bug;
     }
 
@@ -70,6 +74,8 @@ final class BugVoter extends Voter
             self::EDIT => $this->canEdit($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
             self::COMMENT => $this->canComment($user),
+            self::CLOSE => $this->canClose($subject, $user),
+            self::ARCHIVE => $this->canArchive($subject, $user),
             default => false,
         };
     }
@@ -111,5 +117,19 @@ final class BugVoter extends Voter
     private function canComment(?UserInterface $user): bool
     {
         return $user instanceof UserInterface;
+    }
+
+    private function canClose(Bug $bug, UserInterface $user): bool
+    {
+        return $this->isAuthorOrAssigned($bug, $user);
+    }
+
+    private function canArchive(Bug $bug, UserInterface $user): bool
+    {
+        return $this->isAuthorOrAssigned($bug, $user);
+    }
+    private function isAuthorOrAssigned(Bug $bug, UserInterface $user): bool
+    {
+        return $bug->getAuthor() === $user || $bug->getAssignedTo() === $user;
     }
 }

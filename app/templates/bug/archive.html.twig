@@ -6,7 +6,7 @@
     <h1>{{ 'title.archive_bug'|trans }}</h1>
 
     {{ form_start(form) }}
-    <p>{{ 'message.archive_confirm'|trans }}</p>
-    <button class="btn btn-warning">{{ 'action.archive'|trans }}</button>
+    <button class="btn btn-danger">{{ 'button.confirm_archive'|trans }}</button>
+    <a href="{{ path('bug_show', {'id': bug.id}) }}" class="btn btn-secondary">{{ 'action.back'|trans }}</a>
     {{ form_end(form) }}
 {% endblock %}

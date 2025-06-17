@@ -57,7 +57,7 @@
                 <div class="bug-item">
                     <div class="bug-info">
                         <div class="bug-updated-at">
-                            <span class="label">{{ 'label.author'|trans }}</span> {{ bug.author.email }}
+                            <span class="label">{{ 'label.author'|trans }}</span> <strong>{{ bug.author.email }}</strong>
                             <span class="label">{{ 'label.updated_at'|trans }}</span> {{ bug.updatedAt|format_date('long') }}
                         </div>
                         <div class="bug-details">
@@ -75,7 +75,7 @@
                         </div>
                         {% if bug.assignedTo %}
                             <div class="bug-assigned-to">
-                                <span class="label">{{ 'label.assigned_to'|trans }}</span> {{ bug.assignedTo.email }}
+                                <span class="label">{{ 'label.assigned_to'|trans }}</span> <strong>{{ bug.assignedTo.email }}</strong>
                             </div>
                         {% endif %}
                         <div class="bug-status">

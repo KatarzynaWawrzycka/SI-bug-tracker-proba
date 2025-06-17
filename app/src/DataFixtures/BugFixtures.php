@@ -61,6 +61,9 @@ class BugFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
             $assignedTo = $this->getRandomReference('user');
             $bug->setAssignedTo($assignedTo);
 
+            $bug->setIsClosed($this->faker->boolean(50));
+            $bug->setIsArchived($this->faker->boolean(30));
+
             return $bug;
         });
 
