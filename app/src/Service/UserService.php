@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -33,5 +34,10 @@ class UserService implements UserServiceInterface
             $request->query->getInt('page', 1),
             10
         );
+    }
+
+    public function findOneByEmail(string $email): ?User
+    {
+        return $this->userRepository->findOneBy(['email' => $email]);
     }
 }

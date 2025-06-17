@@ -17,6 +17,7 @@ use App\Security\Voter\BugVoter;
 use App\Service\BugServiceInterface;
 use App\Service\CategoryServiceInterface;
 use App\Service\CommentServiceInterface;
+use App\Service\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -90,6 +91,7 @@ class BugController extends AbstractController
 
         if (!$user) {
             $this->addFlash('warning', $this->translator->trans('access_denied'));
+
             return $this->redirectToRoute('bug_show', ['id' => $bug->getId()]);
         }
 
@@ -117,6 +119,139 @@ class BugController extends AbstractController
         ]);
     }
 
+    #[Route('/{bugId}/comment/{commentId}/edit', name: 'bug_comment_edit', requirements: ['bugId' => '\d+', 'commentId' => '\d+'], methods: ['GET', 'POST'])]
+    public function editComment(Request $request, int $bugId, int $commentId, EntityManagerInterface $entityManager): Response
+    {
+        $comment = $this->commentServiceInterface->findOneById($commentId);
+        $bug = $this->bugService->findOneById($bugId);
+
+        if (!$comment || !$bug || $comment->getBug()->getId() !== $bug->getId()) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bugId]);
+        }
+
+        if (!$this->isGranted('EDIT', $comment)) {
+            $this->addFlash('warning', $this->translator->trans('access_denied'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bugId]);
+        }
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('message.comment_updated'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bugId]);
+        }
+
+        return $this->render('bug/comment_edit.html.twig', [
+            'form' => $form->createView(),
+            'comment' => $comment,
+            'bug' => $bug,
+        ]);
+    }
+
+    #[Route('/{bugId}/comment/{commentId}/delete', name: 'bug_comment_delete', requirements: ['bugId' => '\d+', 'commentId' => '\d+'], methods: ['GET', 'DELETE'])]
+    public function deleteComment(Request $request, int $bugId, int $commentId, EntityManagerInterface $entityManager): Response
+    {
+        $comment = $this->commentServiceInterface->findOneById($commentId);
+        $bug = $this->bugService->findOneById($bugId);
+
+        if (!$comment || !$bug || $comment->getBug()->getId() !== $bug->getId()) {
+            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bugId]);
+        }
+
+        if (!$this->isGranted('DELETE', $comment)) {
+            $this->addFlash('warning', $this->translator->trans('access_denied'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bugId]);
+        }
+
+        $form = $this->createForm(FormType::class, $comment, [
+            'method' => 'DELETE',
+            'action' => $this->generateUrl('bug_comment_delete', [
+                'bugId' => $bug->getId(),
+                'commentId' => $comment->getId(),
+            ]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->remove($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('message.comment_deleted'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bug->getId()]);
+        }
+
+        return $this->render('bug/comment_delete.html.twig', [
+            'form' => $form->createView(),
+            'bug' => $bug,
+            'comment' => $comment,
+        ]);
+    }
+
+    #[Route('/{id}/close', name: 'bug_close', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST|PUT')]
+    public function close(Request $request, Bug $bug): Response
+    {
+        $form = $this->createForm(
+            FormType::class,
+            $bug,
+            [
+                'method' => 'PUT',
+                'action' => $this->generateUrl('bug_close', ['id' => $bug->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->bugService->close($bug);
+
+            $this->addFlash('success', $this->translator->trans('message.bug_closed_successfully'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bug->getId()]);
+        }
+
+        return $this->render('bug/close.html.twig', [
+            'form' => $form->createView(),
+            'bug' => $bug,
+        ]);
+    }
+
+    #[Route('/{id}/archive', name: 'bug_archive', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST', 'PUT'])]
+    public function archive(Request $request, Bug $bug): Response
+    {
+        $form = $this->createForm(
+            FormType::class,
+            $bug,
+            [
+                'method' => 'PUT',
+                'action' => $this->generateUrl('bug_archive', ['id' => $bug->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->bugService->archive($bug);
+
+            $this->addFlash('success', $this->translator->trans('message.bug_archived_successfully'));
+
+            return $this->redirectToRoute('bug_show', ['id' => $bug->getId()]);
+        }
+
+        return $this->render('bug/archive.html.twig', [
+            'form' => $form->createView(),
+            'bug' => $bug,
+        ]);
+    }
 
     /**
      * Create action.
@@ -126,7 +261,7 @@ class BugController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/create', name: 'bug_create', methods: 'GET|POST')]
-    public function create(Request $request): Response
+    public function create(Request $request, UserServiceInterface $userService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -135,15 +270,30 @@ class BugController extends AbstractController
         $form = $this->createForm(BugType::class, $bug);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->bugService->save($bug);
+        if ($form->isSubmitted()) {
+            $email = $form->get('assignedToEmail')->getData();
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.created_successfully')
-            );
+            if ($email) {
+                $assignedUser = $userService->findOneByEmail($email);
+                if ($assignedUser) {
+                    $bug->setAssignedTo($assignedUser);
+                } else {
+                    $form->get('assignedToEmail')->addError(
+                        new \Symfony\Component\Form\FormError('User not fount')
+                    );
+                }
+            }
 
-            return $this->redirectToRoute('bug_index');
+            if ($form->isValid()) {
+                $this->bugService->save($bug);
+
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('message.created_successfully')
+                );
+
+                return $this->redirectToRoute('bug_index');
+            }
         }
 
         return $this->render(
@@ -161,13 +311,10 @@ class BugController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'bug_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
-    public function edit(Request $request, Bug $bug): Response
+    public function edit(Request $request, Bug $bug, UserServiceInterface $userService): Response
     {
         if (!$this->isGranted(BugVoter::EDIT, $bug)) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('record_not_found')
-            );
+            $this->addFlash('warning', $this->translator->trans('record_not_found'));
 
             return $this->redirectToRoute('bug_index');
         }
@@ -182,15 +329,30 @@ class BugController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->bugService->save($bug);
+        if ($form->isSubmitted()) {
+            $email = $form->get('assignedToEmail')->getData();
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.edited_successfully')
-            );
+            if ($email) {
+                $assignedUser = $userService->findOneByEmail($email);
+                if ($assignedUser) {
+                    $bug->setAssignedTo($assignedUser);
+                } else {
+                    $form->get('assignedToEmail')->addError(
+                        new \Symfony\Component\Form\FormError('User not found')
+                    );
+                }
+            }
 
-            return $this->redirectToRoute('bug_index');
+            if ($form->isValid()) {
+                $this->bugService->save($bug);
+
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('message.edited_successfully')
+                );
+
+                return $this->redirectToRoute('bug_index');
+            }
         }
 
         return $this->render(

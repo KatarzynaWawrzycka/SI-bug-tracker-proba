@@ -18,4 +18,6 @@ interface CommentServiceInterface
      * @return Comment[]
      */
     public function findByBug(Bug $bug): array;
+
+    public function findOneById(int $id): ?Comment;
 }

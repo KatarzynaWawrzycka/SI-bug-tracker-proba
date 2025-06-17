@@ -73,6 +73,21 @@
                             <span class="label">{{ 'label.tags'|trans }}</span>
                             {{ bug.tags|map(tag => tag.title)|join(', ') }}
                         </div>
+                        {% if bug.assignedTo %}
+                            <div class="bug-assigned-to">
+                                <span class="label">{{ 'label.assigned_to'|trans }}</span> {{ bug.assignedTo.email }}
+                            </div>
+                        {% endif %}
+                        <div class="bug-status">
+                            <span class="label">{{ 'label.status'|trans }}</span>
+                            {% if bug.isClosed and not bug.isArchived %}
+                                {{ 'label.status_closed'|trans }}
+                            {% elseif bug.isClosed and bug.isArchived %}
+                                {{ 'label.status_archived'|trans }}
+                            {% else %}
+                                {{ 'label.status_pending'|trans }}
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="bug-actions d-flex flex-column align-items-end">
                         <p>

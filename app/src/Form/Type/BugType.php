@@ -11,6 +11,7 @@ use App\Entity\Bug;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -80,7 +81,15 @@ class BugType extends AbstractType
                 'attr' => ['max_length' => 128],
             ]
         );
-
+        $builder->add(
+            'assignedToEmail',
+            EmailType::class,
+            [
+                'label' => 'label.assigned_to_email',
+                'required' => false,
+                'mapped' => false,
+            ]
+        );
         $builder->get('tags')->addModelTransformer(
             $this->tagsDataTransformer
         );

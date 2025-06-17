@@ -27,6 +27,8 @@ interface BugServiceInterface
      */
     public function getPaginatedList(int $page, ?User $user, BugListInputFiltersDto $filters): PaginationInterface;
 
+    public function findOneById(int $id): ?Bug;
+
     /**
      * Save entity.
      *

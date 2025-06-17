@@ -68,6 +68,30 @@ class BugService implements BugServiceInterface
     }
 
     /**
+     * Find one Bug by ID.
+     *
+     * @param int $id Bug ID
+     *
+     * @return Bug|null
+     */
+    public function findOneById(int $id): ?Bug
+    {
+        return $this->bugRepository->findOneById($id);
+    }
+
+    public function close(Bug $bug): void
+    {
+        $bug->setIsClosed(true);
+        $this->bugRepository->save($bug);
+    }
+
+    public function archive(Bug $bug): void
+    {
+        $bug->setIsArchived(true);
+        $this->bugRepository->save($bug);
+    }
+
+    /**
      * Save entity.
      *
      * @param Bug $bug Bug entity

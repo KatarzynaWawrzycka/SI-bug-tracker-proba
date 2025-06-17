@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.archive_bug'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.archive_bug'|trans }}</h1>
+
+    {{ form_start(form) }}
+    <p>{{ 'message.archive_confirm'|trans }}</p>
+    <button class="btn btn-warning">{{ 'action.archive'|trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}

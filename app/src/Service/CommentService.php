@@ -19,4 +19,10 @@ class CommentService implements CommentServiceInterface
     {
         return $this->commentRepository->findByBug($bug);
     }
+
+    public function findOneById(int $id): ?Comment
+    {
+        return $this->commentRepository->find($id);
+    }
+
 }

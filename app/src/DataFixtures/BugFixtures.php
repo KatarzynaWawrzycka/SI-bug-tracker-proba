@@ -53,8 +53,13 @@ class BugFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
                 $bug->addTag($tag);
             }
 
+            /** @var \App\Entity\User $author */
             $author = $this->getRandomReference('user');
             $bug->setAuthor($author);
+
+            /** @var \App\Entity\User $assignedTo */
+            $assignedTo = $this->getRandomReference('user');
+            $bug->setAssignedTo($assignedTo);
 
             return $bug;
         });

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.comment_delete'|trans({'%id%': comment.id}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.comment_delete'|trans({'%id%': comment.id}) }}</h1>
+
+    <div class="alert alert-danger">
+        <p>{{ 'message.confirm_delete_comment'|trans }}</p>
+    </div>
+
+    <form method="post" action="{{ path('bug_comment_delete', {'bugId': bug.id, 'commentId': comment.id}) }}">
+        {{ form_start(form, {'method': 'DELETE'}) }}
+        {{ form_widget(form) }}
+
+        <button class="btn btn-danger">
+            {{ 'action.delete'|trans }}
+        </button>
+
+        <a href="{{ path('bug_show', {'id': bug.id}) }}" class="btn btn-secondary">
+            {{ 'action.cancel'|trans }}
+        </a>
+        {{ form_end(form, {'render_rest': false}) }}
+    </form>
+{% endblock %}

@@ -53,13 +53,12 @@ class BugRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('bug')
             ->select(
-                'partial bug.{id, createdAt, updatedAt, title, description}',
+                'partial bug.{id, createdAt, updatedAt, title, description, isClosed, isArchived}',
                 'partial category.{id, title}',
                 'partial tags.{id, title}'
             )
             ->join('bug.category', 'category')
             ->leftJoin('bug.tags', 'tags');
-
         if (!in_array('ROLE_ADMIN', $author->getRoles(), true)) {
             $qb->andWhere('bug.author = :author')
                 ->setParameter('author', $author);
@@ -81,7 +80,7 @@ class BugRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('bug')
             ->select(
-                'partial bug.{id, createdAt, updatedAt, title, description}',
+                'partial bug.{id, createdAt, updatedAt, title, description, isClosed, isArchived}',
                 'partial category.{id, title}',
                 'partial tags.{id, title}'
             )
@@ -118,6 +117,18 @@ class BugRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find one bug by ID.
+     */
+    public function findOneById(int $id): ?Bug
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
      * Save entity.
      *
      * @param Bug $bug Bug entity
@@ -143,6 +154,11 @@ class BugRepository extends ServiceEntityRepository
     public function delete(Bug $bug): void
     {
         assert($this->_em instanceof EntityManager);
+
+        $this->_em->createQuery('DELETE FROM App\Entity\Comment c WHERE c.bug = :bug')
+            ->setParameter('bug', $bug)
+            ->execute();
+
         $this->_em->remove($bug);
         $this->_em->flush();
     }

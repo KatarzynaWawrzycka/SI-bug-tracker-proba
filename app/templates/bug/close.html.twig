@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.close_bug'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.close_bug'|trans }}</h1>
+
+    <p>{{ 'message.close_bug_confirmation'|trans({'%id%': bug.id}) }}</p>
+
+    {{ form_start(form) }}
+    <button class="btn btn-danger">{{ 'button.confirm_close'|trans }}</button>
+    <a href="{{ path('bug_show', {'id': bug.id}) }}" class="btn btn-secondary">{{ 'button.cancel'|trans }}</a>
+    {{ form_end(form) }}
+{% endblock %}

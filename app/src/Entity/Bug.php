@@ -89,6 +89,17 @@ class Bug
     #[Assert\Type(User::class)]
     private ?User $author = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Assert\Type(User::class)]
+    private ?User $assignedTo = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isClosed = false;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isArchived = false;
+
     /**
      * Bug constructor.
      */
@@ -260,5 +271,35 @@ class Bug
         $this->author = $author;
 
         return $this;
+    }
+
+    public function getAssignedTo(): ?User
+    {
+        return $this->assignedTo;
+    }
+
+    public function setAssignedTo(?User $assignedTo): void
+    {
+        $this->assignedTo = $assignedTo;
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->isClosed;
+    }
+
+    public function setIsClosed(bool $isClosed): void
+    {
+        $this->isClosed = $isClosed;
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(bool $isArchived): void
+    {
+        $this->isArchived = $isArchived;
     }
 }

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.edit_comment'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.edit_comment'|trans }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary mt-3">{{ 'action.save'|trans }}</button>
+    <a href="{{ path('bug_show', {'id': bug.id}) }}" class="btn btn-secondary mt-3">{{ 'action.back'|trans }}</a>
+    {{ form_end(form) }}
+{% endblock %}
