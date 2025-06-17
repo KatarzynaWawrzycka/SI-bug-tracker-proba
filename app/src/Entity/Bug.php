@@ -89,9 +89,6 @@ class Bug
     #[Assert\Type(User::class)]
     private ?User $author = null;
 
-  //  #[ORM\OneToMany(mappedBy: 'bug', targetEntity: Comment::class, orphanRemoval: true)]
-    //private Collection $comments;
-
     /**
      * Bug constructor.
      */

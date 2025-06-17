@@ -36,9 +36,10 @@ class Comment
     #[Assert\NotBlank]
     private ?Bug $bug = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
+    #[Assert\Type(User::class)]
     private ?User $author = null;
 
     public function getId(): ?int

@@ -20,10 +20,6 @@ class CommentRepository extends ServiceEntityRepository
     public function findByBug(Bug $bug): array
     {
         return $this->createQueryBuilder('comment')
-            ->select(
-                'partial comment.{id, content, createdAt, updatedAt}',
-                'partial author.{id, email}'
-            )
             ->join('comment.author', 'author')
             ->andWhere('comment.bug = :bug')
             ->setParameter('bug', $bug)
@@ -31,4 +27,5 @@ class CommentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
 }
