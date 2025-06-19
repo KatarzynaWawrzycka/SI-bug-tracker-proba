@@ -27,7 +27,7 @@
                     <div>{{ bug.updatedAt|format_date('long') }}</div>
                     {% if bug.assignedTo %}
                         <div class="fw-bold mt-2">{{ 'label.assigned_to'|trans }}</div>
-                        <div>{{ bug.assignedTo.email }}</div>
+                        <div>{{ bug.assignedTo ? bug.assignedTo.email : '' }}</div>
                     {% endif %}
                     <div class="bug-status">
                         <span class="fw-bold mt-2">{{ 'label.status'|trans }}</span>
@@ -49,7 +49,7 @@
                     <div>{{ bug.category.title }}</div>
                     <div>
                         <div class="fw-bold">{{ 'label.tags'|trans }}</div>
-                        <div>{{ bug.tags|map(tag => tag.title)|join(', ') }}</div>
+                        <div>{{ bug.tags|length ? bug.tags|map(tag => tag.title)|join(', ') : '' }}</div>
                     </div>
                 </div>
             </div>
@@ -94,19 +94,30 @@
             </div>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 d-flex gap-2 flex-wrap">
             {% if is_granted('BUG_CLOSE', bug) and not bug.isClosed %}
-                <a href="{{ path('bug_close', {id: bug.id}) }}" class="btn btn-primary me-2">
+                <a href="{{ path('bug_close', {id: bug.id}) }}" class="btn btn-primary">
                     {{ 'action.close'|trans }}
                 </a>
-
             {% elseif is_granted('BUG_ARCHIVE', bug) and bug.isClosed and not bug.isArchived %}
-                <a href="{{ path('bug_archive', {id: bug.id}) }}" class="btn btn-primary me-2">
+                <a href="{{ path('bug_archive', {id: bug.id}) }}" class="btn btn-primary">
                     {{ 'action.archive'|trans }}
                 </a>
+            {% endif %}
 
+            {% if is_granted('BUG_EDIT', bug) %}
+                <a href="{{ path('bug_edit', {id: bug.id}) }}" class="btn btn-outline-primary">
+                    {{ 'action.edit'|trans }}
+                </a>
+            {% endif %}
+
+            {% if is_granted('BUG_DELETE', bug) %}
+                <a href="{{ path('bug_delete', {id: bug.id}) }}" class="btn btn-outline-danger">
+                    {{ 'action.delete'|trans }}
+                </a>
             {% endif %}
         </div>
+
     {% else %}
         <p class="alert alert-warning">{{ 'message.record_not_found'|trans }}</p>
     {% endif %}

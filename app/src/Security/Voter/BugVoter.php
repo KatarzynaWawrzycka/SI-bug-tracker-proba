@@ -107,6 +107,10 @@ final class BugVoter extends Voter
      */
     private function canEdit(Bug $bug, UserInterface $user): bool
     {
+        if ($bug->isClosed()) {
+            return false;
+        }
+
         if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
             return true;
         }

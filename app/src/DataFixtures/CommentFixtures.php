@@ -9,7 +9,7 @@ class CommentFixtures extends AbstractBaseFixtures implements DependentFixtureIn
 {
     public function loadData(): void
     {
-        $this->createMany(110, 'comments', function (int $i) {
+        $this->createMany(150, 'comments', function (int $i) {
             $comment = new Comment();
 
             $comment->setContent($this->faker->text(120));

@@ -71,8 +71,6 @@ class BugService implements BugServiceInterface
      * Find one Bug by ID.
      *
      * @param int $id Bug ID
-     *
-     * @return Bug|null
      */
     public function findOneById(int $id): ?Bug
     {
@@ -101,7 +99,10 @@ class BugService implements BugServiceInterface
      */
     public function save(Bug $bug): void
     {
-        $bug->setCreatedAt(new \DateTimeImmutable());
+        if (null === $bug->getId()) {
+            $bug->setCreatedAt(new \DateTimeImmutable());
+        }
+
         if (null !== $bug->getId()) {
             $bug->setUpdatedAt(new \DateTimeImmutable());
         }

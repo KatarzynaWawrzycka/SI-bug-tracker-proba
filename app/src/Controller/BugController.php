@@ -339,6 +339,11 @@ class BugController extends AbstractController
                 'action' => $this->generateUrl('bug_edit', ['id' => $bug->getId()]),
             ]
         );
+
+        if ($bug->getAssignedTo()) {
+            $form->get('assignedToEmail')->setData($bug->getAssignedTo()->getEmail());
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -353,6 +358,8 @@ class BugController extends AbstractController
                         new \Symfony\Component\Form\FormError('User not found')
                     );
                 }
+            } else {
+                $bug->setAssignedTo(null);
             }
 
             if ($form->isValid()) {

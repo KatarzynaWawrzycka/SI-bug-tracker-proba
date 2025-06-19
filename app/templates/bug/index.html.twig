@@ -54,65 +54,45 @@
 
         <div class="bug-list">
             {% for bug in pagination.items %}
-                <div class="bug-item">
-                    <div class="bug-info">
-                        <div class="bug-updated-at">
-                            <span class="label">{{ 'label.author'|trans }}</span> <strong>{{ bug.author.email }}</strong>
-                            <span class="label">{{ 'label.updated_at'|trans }}</span> {{ bug.updatedAt|format_date('long') }}
-                        </div>
-                        <div class="bug-details">
-                            <span class="bug-id"><span class="label">{{ 'label.id'|trans }}</span> {{ bug.id }}</span>
-                            <span class="bug-title"><span class="label">{{ 'label.title'|trans }}</span> {{ bug.title }}</span>
-                        </div>
-                        <div class="bug-created-at"><span class="label">{{ 'label.created_at'|trans }}</span> {{ bug.createdAt|format_date('long') }}</div>
-                        <div class="bug-category"><span class="label">{{ 'label.category'|trans }}</span> {{ bug.category.title }}</div>
-                        <div class="bug-description">
-                            <span class="label">{{ 'label.description'|trans }}</span> {{ bug.description|slice(0,100) ~'...' }}
-                        </div>
-                        <div class="bug-tags">
-                            <span class="label">{{ 'label.tags'|trans }}</span>
-                            {{ bug.tags|map(tag => tag.title)|join(', ') }}
-                        </div>
-                        {% if bug.assignedTo %}
-                            <div class="bug-assigned-to">
-                                <span class="label">{{ 'label.assigned_to'|trans }}</span> <strong>{{ bug.assignedTo.email }}</strong>
+                <div class="bug-item mb-4 p-3 border rounded bg-light">
+                    <div class="row">
+                        <!-- Kolumna 1: Autor i status -->
+                        <div class="col-md-6 mb-2">
+                            <div><strong>{{ 'label.author'|trans }}</strong> {{ bug.author.email }}</div>
+                            <div><strong>{{ 'label.updated_at'|trans }}</strong> {{ bug.updatedAt|format_date('long') }}</div>
+                            <div><strong>{{ 'label.created_at'|trans }}</strong> {{ bug.createdAt|format_date('long') }}</div>
+
+                            <div class="mt-3">
+                                <div><strong>{{ 'label.assigned_to'|trans }}</strong>: {{ bug.assignedTo ? bug.assignedTo.email : '' }}</div>
+                                <div><strong>{{ 'label.status'|trans }}</strong>:
+                                    {% if bug.isClosed and not bug.isArchived %}
+                                        {{ 'label.status_closed'|trans }}
+                                    {% elseif bug.isClosed and bug.isArchived %}
+                                        {{ 'label.status_archived'|trans }}
+                                    {% else %}
+                                        {{ 'label.status_pending'|trans }}
+                                    {% endif %}
+                                </div>
                             </div>
-                        {% endif %}
-                        <div class="bug-status">
-                            <span class="label">{{ 'label.status'|trans }}</span>
-                            {% if bug.isClosed and not bug.isArchived %}
-                                {{ 'label.status_closed'|trans }}
-                            {% elseif bug.isClosed and bug.isArchived %}
-                                {{ 'label.status_archived'|trans }}
-                            {% else %}
-                                {{ 'label.status_pending'|trans }}
-                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <div><strong>{{ 'label.title'|trans }}</strong> {{ bug.title }}</div>
+                            <div><strong>{{ 'label.description'|trans }}</strong> {{ bug.description|slice(0, 100) ~ '...' }}</div>
+                            <div><strong>{{ 'label.category'|trans }}</strong> {{ bug.category.title }}</div>
+                            <div><strong>{{ 'label.tags'|trans }}</strong>:
+                                {{ bug.tags|length ? bug.tags|map(tag => tag.title)|join(', ') : '' }}
+                            </div>
                         </div>
                     </div>
-                    <div class="bug-actions d-flex flex-column align-items-end">
-                        <p>
-                            <a href="{{ url('bug_show', {id:bug.id}) }}" class="btn btn-primary" title="{{ 'action.show|trans' }}">
-                                {{ 'action.show'|trans }}
-                            </a>
-                        </p>
-                        <p>
-                            {% if is_granted('BUG_EDIT', bug) %}
-                            <a href="{{ url('bug_edit', {id:bug.id}) }}" class="btn btn-primary" title="{{ 'action.edit|trans' }}">
-                                {{ 'action.edit'|trans }}
-                            </a>
-                            {% endif %}
-                        </p>
-                        <p>
-                            {% if is_granted('BUG_DELETE', bug) %}
-                            <a href="{{ url('bug_delete', {id:bug.id}) }}" class="btn btn-primary" title="{{ 'action.delete|trans' }}">
-                                {{ 'action.delete'|trans }}
-                            </a>
-                            {% endif %}
-                        </p>
+                    <div class="text-end mt-2">
+                        <a href="{{ url('bug_show', {id: bug.id}) }}" class="btn btn-outline-primary">
+                            {{ 'action.show'|trans }}
+                        </a>
                     </div>
                 </div>
             {% endfor %}
         </div>
+
 
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}

@@ -49,27 +49,27 @@ class BugRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    public function queryByAuthor(User $author, ?BugListFiltersDto $filters = null): QueryBuilder
-    {
-        $qb = $this->createQueryBuilder('bug')
-            ->select(
-                'partial bug.{id, createdAt, updatedAt, title, description, isClosed, isArchived}',
-                'partial category.{id, title}',
-                'partial tags.{id, title}'
-            )
-            ->join('bug.category', 'category')
-            ->leftJoin('bug.tags', 'tags');
-        if (!in_array('ROLE_ADMIN', $author->getRoles(), true)) {
-            $qb->andWhere('bug.author = :author')
-                ->setParameter('author', $author);
-        }
-
-        if ($filters instanceof BugListFiltersDto) {
-            $qb = $this->applyFiltersToList($qb, $filters);
-        }
-
-        return $qb;
-    }
+//    public function queryByAuthor(User $author, ?BugListFiltersDto $filters = null): QueryBuilder
+//    {
+//        $qb = $this->createQueryBuilder('bug')
+//            ->select(
+//                'partial bug.{id, createdAt, updatedAt, title, description, isClosed, isArchived}',
+//                'partial category.{id, title}',
+//                'partial tags.{id, title}'
+//            )
+//            ->join('bug.category', 'category')
+//            ->leftJoin('bug.tags', 'tags');
+//        if (!in_array('ROLE_ADMIN', $author->getRoles(), true)) {
+//            $qb->andWhere('bug.author = :author')
+//                ->setParameter('author', $author);
+//        }
+//
+//        if ($filters instanceof BugListFiltersDto) {
+//            $qb = $this->applyFiltersToList($qb, $filters);
+//        }
+//
+//        return $qb;
+//    }
 
     /**
      * Query public bugs (for unauthenticated users).
