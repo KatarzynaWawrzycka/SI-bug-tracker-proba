@@ -45,4 +45,6 @@ interface TagServiceInterface
      * @return Tag|null Tag entity
      */
     public function findOneByTitle(string $title): ?Tag;
+
+    public function findAll(): array;
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Bug list input filters DTO.
  */
@@ -15,8 +14,9 @@ class BugListInputFiltersDto
      * Constructor.
      *
      * @param int|null $categoryId Category identifier
+     * @param int|null $tagId      Tag identifier
      */
-    public function __construct(public readonly ?int $categoryId = null)
+    public function __construct(public readonly ?int $categoryId = null, public readonly ?int $tagId = null)
     {
     }
 }

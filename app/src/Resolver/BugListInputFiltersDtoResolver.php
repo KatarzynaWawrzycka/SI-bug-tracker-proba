@@ -33,7 +33,8 @@ class BugListInputFiltersDtoResolver implements ValueResolverInterface
         }
 
         $categoryId = $request->query->getInt('categoryId');
+        $tagId = $request->query->getInt('tagId');
 
-        return [new BugListInputFiltersDto($categoryId)];
+        return [new BugListInputFiltersDto($categoryId, $tagId)];
     }
 }

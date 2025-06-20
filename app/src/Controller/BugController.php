@@ -16,6 +16,7 @@ use App\Resolver\BugListInputFiltersDtoResolver;
 use App\Security\Voter\BugVoter;
 use App\Service\BugServiceInterface;
 use App\Service\CategoryServiceInterface;
+use App\Service\TagServiceInterface;
 use App\Service\CommentServiceInterface;
 use App\Service\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,7 +42,7 @@ class BugController extends AbstractController
      * @param TranslatorInterface      $translator               Translator
      * @param CategoryServiceInterface $categoryServiceInterface Category service interface
      */
-    public function __construct(private readonly BugServiceInterface $bugService, private readonly TranslatorInterface $translator, private readonly CategoryServiceInterface $categoryServiceInterface, private readonly CommentServiceInterface $commentServiceInterface)
+    public function __construct(private readonly BugServiceInterface $bugService, private readonly TranslatorInterface $translator, private readonly CategoryServiceInterface $categoryServiceInterface, private readonly TagServiceInterface $tagServiceInterface, private readonly CommentServiceInterface $commentServiceInterface)
     {
     }
 
@@ -57,12 +58,13 @@ class BugController extends AbstractController
     public function index(#[MapQueryString(resolver: BugListInputFiltersDtoResolver::class)] BugListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
         $pagination = $this->bugService->getPaginatedList($page, null, $filters);
-
         $categories = $this->categoryServiceInterface->findAll();
+        $tags = $this->tagServiceInterface->findAll();
 
         return $this->render('bug/index.html.twig', [
             'pagination' => $pagination,
             'categories' => $categories,
+            'tags' => $tags,
         ]);
     }
 

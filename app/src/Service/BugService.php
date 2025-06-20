@@ -27,10 +27,11 @@ class BugService implements BugServiceInterface
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService Category service
+     * @param TagServiceInterface      $tagService      Tag service
      * @param BugRepository            $bugRepository   Bug repository
      * @param PaginatorInterface       $paginator       Paginator
      */
-    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly BugRepository $bugRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly TagServiceInterface $tagService, private readonly BugRepository $bugRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
@@ -48,12 +49,7 @@ class BugService implements BugServiceInterface
     public function getPaginatedList(int $page, ?User $user, BugListInputFiltersDto $filters): PaginationInterface
     {
         $filters = $this->prepareFilters($filters);
-
-        if ($user instanceof User) {
-            $query = $this->bugRepository->queryByAuthor($user, $filters);
-        } else {
-            $query = $this->bugRepository->queryPublicBugs($filters);
-        }
+        $query = $this->bugRepository->queryPublicBugs($filters);
 
         return $this->paginator->paginate(
             $query,
@@ -146,6 +142,7 @@ class BugService implements BugServiceInterface
     {
         return new BugListFiltersDto(
             null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
+            null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
         );
     }
 }

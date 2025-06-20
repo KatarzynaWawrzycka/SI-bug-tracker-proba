@@ -55,6 +55,21 @@ class TagService implements TagServiceInterface
     }
 
     /**
+     * Find by id.
+     *
+     * @param int $id Tag id
+     *
+     * @return Tag|null Tag entity
+     *S
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Tag
+    {
+        return $this->tagRepository->findOneById($id);
+    }
+// ...
+
+    /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
@@ -88,17 +103,8 @@ class TagService implements TagServiceInterface
         return $this->tagRepository->findOneByTitle($title);
     }
 
-    /**
-     * Find by id.
-     *
-     * @param int $id Tag id
-     *
-     * @return Tag|null Tag entity
-     *
-     * @throws NonUniqueResultException
-     */
-    public function findOneById(int $id): ?Tag
+    public function findAll(): array
     {
-        return $this->tagRepository->findOneById($id);
+        return $this->tagRepository->findAll();
     }
 }

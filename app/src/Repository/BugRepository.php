@@ -9,6 +9,7 @@ namespace App\Repository;
 use App\Dto\BugListFiltersDto;
 use App\Entity\Bug;
 use App\Entity\Category;
+use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
@@ -176,6 +177,11 @@ class BugRepository extends ServiceEntityRepository
         if ($filters->category instanceof Category) {
             $queryBuilder->andWhere('category = :category')
                 ->setParameter('category', $filters->category);
+        }
+
+        if ($filters->tag instanceof Tag) {
+            $queryBuilder->andWhere('tags IN (:tag)')
+                ->setParameter('tag', $filters->tag);
         }
 
         return $queryBuilder;
