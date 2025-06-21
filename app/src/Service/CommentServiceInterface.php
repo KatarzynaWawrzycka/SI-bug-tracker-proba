@@ -17,6 +17,8 @@ interface CommentServiceInterface
     /**
      * Find comments by bug.
      *
+     * @param Bug $bug Bug
+     *
      * @return Comment[]
      */
     public function findByBug(Bug $bug): array;

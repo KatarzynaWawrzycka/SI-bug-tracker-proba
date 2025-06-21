@@ -1,0 +1,124 @@
+
+Found 0 of 53 files that can be fixed in 1.744 seconds, 18.00 MB memory used
+WARNING: The Symfony standard uses 1 deprecated sniff
+-------------------------------------------------------------------------------
+-  Generic.Functions.CallTimePassByReference
+   This sniff has been deprecated since v3.12.1 and will be removed in v4.0.0.
+
+Deprecated sniffs are still run, but will stop working at some point in the future.
+
+ ----------- ------------ --------------------------------------------------- ------------------------------------------ 
+  State       Domain       Id                                                  Message Preview (en)                      
+ ----------- ------------ --------------------------------------------------- ------------------------------------------ 
+   missing    validators   Please enter your password                          Please enter your password                
+   missing    validators   Your password must be at least 6v characters long   Your password must be at least 6v cha...  
+   missing    validators   form.email.not_blank                                form.email.not_blank                      
+   missing    validators   form.email.invalid                                  form.email.invalid                        
+   missing    validators   form.password.not_blank                             form.password.not_blank                   
+   missing    validators   form.password.min_length                            form.password.min_length                  
+   missing    messages     access_denied                                       access_denied                             
+   missing    messages     message.comment_added                               message.comment_added                     
+   missing    messages     message.comment_updated                             message.comment_updated                   
+   missing    messages     message.comment_deleted                             message.comment_deleted                   
+   missing    messages     message.bug_closed_successfully                     message.bug_closed_successfully           
+   missing    messages     message.bug_archived_successfully                   message.bug_archived_successfully         
+   missing    messages     message.created_successfully                        message.created_successfully              
+   missing    messages     record_not_found                                    record_not_found                          
+   missing    messages     message.edited_successfully                         message.edited_successfully               
+   missing    messages     message.deleted_successfully                        message.deleted_successfully              
+   missing    messages     message.category_contains_bugs                      message.category_contains_bugs            
+   missing    messages     message.email_updated                               message.email_updated                     
+   missing    messages     message.password_updated                            message.password_updated                  
+   missing    messages     title.bug_create                                    title.bug_create                          
+   missing    messages     action.save                                         action.save                               
+   missing    messages     title.bug_delete                                    title.bug_delete                          
+   missing    messages     action.delete                                       action.delete                             
+   missing    messages     title.comment_delete                                title.comment_delete                      
+   missing    messages     message.confirm_delete_comment                      message.confirm_delete_comment            
+   missing    messages     action.back                                         action.back                               
+   missing    messages     title.add_comment                                   title.add_comment                         
+   missing    messages     label.comment_for_bug                               label.comment_for_bug                     
+   missing    messages     action.add_comment                                  action.add_comment                        
+   missing    messages     title.bug_list                                      title.bug_list                            
+   missing    messages     action.create_new_bug                               action.create_new_bug                     
+   missing    messages     label.categories                                    label.categories                          
+   missing    messages     label.users                                         label.users                               
+   missing    messages     label.filter_by_category                            label.filter_by_category                  
+   missing    messages     label.all_categories                                label.all_categories                      
+   missing    messages     action.filter                                       action.filter                             
+   missing    messages     label.filter_by_tag                                 label.filter_by_tag                       
+   missing    messages     label.all_tags                                      label.all_tags                            
+   missing    messages     label.author                                        label.author                              
+   missing    messages     label.updated_at                                    label.updated_at                          
+   missing    messages     label.created_at                                    label.created_at                          
+   missing    messages     label.assigned_to                                   label.assigned_to                         
+   missing    messages     label.status                                        label.status                              
+   missing    messages     label.status_closed                                 label.status_closed                       
+   missing    messages     label.status_archived                               label.status_archived                     
+   missing    messages     label.status_pending                                label.status_pending                      
+   missing    messages     label.description                                   label.description                         
+   missing    messages     label.category                                      label.category                            
+   missing    messages     action.show                                         action.show                               
+   missing    messages     title.bug_details                                   title.bug_details                         
+   missing    messages     action.back_to_list                                 action.back_to_list                       
+   missing    messages     label.comments                                      label.comments                            
+   missing    messages     action.edit                                         action.edit                               
+   missing    messages     label.no_comments                                   label.no_comments                         
+   missing    messages     action.close                                        action.close                              
+   missing    messages     action.archive                                      action.archive                            
+   missing    messages     title.bug_edit                                      title.bug_edit                            
+   missing    messages     title.edit_comment                                  title.edit_comment                        
+   missing    messages     title.close_bug                                     title.close_bug                           
+   missing    messages     message.close_bug_confirmation                      message.close_bug_confirmation            
+   missing    messages     button.confirm_close                                button.confirm_close                      
+   missing    messages     title.archive_bug                                   title.archive_bug                         
+   missing    messages     button.confirm_archive                              button.confirm_archive                    
+   missing    messages     label.sign_in                                       label.sign_in                             
+   missing    messages     label.email                                         label.email                               
+   missing    messages     label.password                                      label.password                            
+   missing    messages     action.sign_in                                      action.sign_in                            
+   missing    messages     title.edit_email                                    title.edit_email                          
+   missing    messages     title.user_list                                     title.user_list                           
+   missing    messages     action.manage                                       action.manage                             
+   missing    messages     message.no_users_found                              message.no_users_found                    
+   missing    messages     title.user_details                                  title.user_details                        
+   missing    messages     action.edit_email                                   action.edit_email                         
+   missing    messages     action.edit_password                                action.edit_password                      
+   missing    messages     title.edit_password                                 title.edit_password                       
+   missing    messages     title.tag_create                                    title.tag_create                          
+   missing    messages     title.tag_delete                                    title.tag_delete                          
+   missing    messages     title.tag_list                                      title.tag_list                            
+   missing    messages     action.create_new_tag                               action.create_new_tag                     
+   missing    messages     label.bugs                                          label.bugs                                
+   missing    messages     title.tag_details                                   title.tag_details                         
+   missing    messages     title.tag_edit                                      title.tag_edit                            
+   missing    messages     label.logged_in_as                                  label.logged_in_as                        
+   missing    messages     action.logout                                       action.logout                             
+   missing    messages     action.sign_up                                      action.sign_up                            
+   missing    messages     message.form_error                                  message.form_error                        
+   missing    messages     title.category_create                               title.category_create                     
+   missing    messages     title.category_delete                               title.category_delete                     
+   missing    messages     title.category_list                                 title.category_list                       
+   missing    messages     action.create_new_category                          action.create_new_category                
+   missing    messages     title.category_details                              title.category_details                    
+   missing    messages     title.category_edit                                 title.category_edit                       
+   missing    messages     title.profile                                       title.profile                             
+ ----------- ------------ --------------------------------------------------- ------------------------------------------ 
+
+ ------- -------- ---- ---------------------- ------------------------------- 
+  State   Domain   Id   Message Preview (pl)   Fallback Message Preview (en)  
+ ------- -------- ---- ---------------------- ------------------------------- 
+
+[notice] Migrating up to DoctrineMigrations\Version20250617185700
+[notice] finished in 5562.5ms, used 24M memory, 14 migrations executed, 28 sql queries
+
+ [OK] Successfully migrated to version: DoctrineMigrations\Version20250617185700                                        
+
+
+   > purging database
+   > loading App\DataFixtures\AppFixtures
+   > loading App\DataFixtures\CategoryFixtures
+   > loading App\DataFixtures\TagFixtures
+   > loading App\DataFixtures\UserFixtures
+   > loading App\DataFixtures\BugFixtures
+   > loading App\DataFixtures\CommentFixtures
