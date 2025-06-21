@@ -27,6 +27,13 @@ interface BugServiceInterface
      */
     public function getPaginatedList(int $page, ?User $user, BugListInputFiltersDto $filters): PaginationInterface;
 
+    /**
+     * Find bug by id.
+     *
+     * @param int $id Id
+     *
+     * @return Bug|null Bug
+     */
     public function findOneById(int $id): ?Bug;
 
     /**

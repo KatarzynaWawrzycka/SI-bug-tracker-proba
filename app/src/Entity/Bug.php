@@ -69,6 +69,7 @@ class Bug
      */
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Category $category = null;
 
     /**
@@ -89,14 +90,29 @@ class Bug
     #[Assert\Type(User::class)]
     private ?User $author = null;
 
+    /**
+     * Assigned user.
+     *
+     * @var User|null User
+     */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: true)]
     #[Assert\Type(User::class)]
     private ?User $assignedTo = null;
 
+    /**
+     * Closed bug flag.
+     *
+     * @var bool Flag
+     */
     #[ORM\Column(type: 'boolean')]
     private bool $isClosed = false;
 
+    /**
+     * Archived bug flag.
+     *
+     * @var bool Flag
+     */
     #[ORM\Column(type: 'boolean')]
     private bool $isArchived = false;
 
@@ -223,6 +239,8 @@ class Bug
     }
 
     /**
+     * Getter for tags.
+     *
      * @return Collection<int, Tag>
      */
     public function getTags(): Collection
@@ -256,15 +274,22 @@ class Bug
         return $this;
     }
 
+    /**
+     * Getter for author.
+     *
+     * @return User|null User
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
     /**
+     * Setter for author.
+     *
      * @param User|null $author Author
      *
-     * @return $this
+     * @return $this Author
      */
     public function setAuthor(?User $author): static
     {
@@ -273,31 +298,63 @@ class Bug
         return $this;
     }
 
+    /**
+     * Getter for assigned user.
+     *
+     * @return User|null User
+     */
     public function getAssignedTo(): ?User
     {
         return $this->assignedTo;
     }
 
+    /**
+     * Setter for assigned user.
+     *
+     * @param User|null $assignedTo Assigned user
+     *
+     * @return void User
+     */
     public function setAssignedTo(?User $assignedTo): void
     {
         $this->assignedTo = $assignedTo;
     }
 
+    /**
+     * @return bool Closed flag
+     */
     public function isClosed(): bool
     {
         return $this->isClosed;
     }
 
+    /**
+     * Setter for closed flag.
+     *
+     * @param bool $isClosed Closed flag
+     *
+     * @return void Flag
+     */
     public function setIsClosed(bool $isClosed): void
     {
         $this->isClosed = $isClosed;
     }
 
+    /**
+     * @return bool Archived flag
+     */
     public function isArchived(): bool
     {
         return $this->isArchived;
     }
 
+    /**
+     * Setter for archived flag.
+     *
+     * @param bool $isArchived Archived flag
+     *
+     * @return void Fag
+     */
     public function setIsArchived(bool $isArchived): void
     {
         $this->isArchived = $isArchived;

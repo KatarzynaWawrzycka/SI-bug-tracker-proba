@@ -10,7 +10,6 @@ use App\Dto\BugListFiltersDto;
 use App\Entity\Bug;
 use App\Entity\Category;
 use App\Entity\Tag;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
@@ -45,37 +44,38 @@ class BugRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
-     * @param User                   $author  User entity
      * @param BugListFiltersDto|null $filters Filters
      *
      * @return QueryBuilder Query builder
      */
-//    public function queryByAuthor(User $author, ?BugListFiltersDto $filters = null): QueryBuilder
-//    {
-//        $qb = $this->createQueryBuilder('bug')
-//            ->select(
-//                'partial bug.{id, createdAt, updatedAt, title, description, isClosed, isArchived}',
-//                'partial category.{id, title}',
-//                'partial tags.{id, title}'
-//            )
-//            ->join('bug.category', 'category')
-//            ->leftJoin('bug.tags', 'tags');
-//        if (!in_array('ROLE_ADMIN', $author->getRoles(), true)) {
-//            $qb->andWhere('bug.author = :author')
-//                ->setParameter('author', $author);
-//        }
-//
-//        if ($filters instanceof BugListFiltersDto) {
-//            $qb = $this->applyFiltersToList($qb, $filters);
-//        }
-//
-//        return $qb;
-//    }
+    //    public function queryByAuthor(User $author, ?BugListFiltersDto $filters = null): QueryBuilder
+    //    {
+    //        $qb = $this->createQueryBuilder('bug')
+    //            ->select(
+    //                'partial bug.{id, createdAt, updatedAt, title, description, isClosed, isArchived}',
+    //                'partial category.{id, title}',
+    //                'partial tags.{id, title}'
+    //            )
+    //            ->join('bug.category', 'category')
+    //            ->leftJoin('bug.tags', 'tags');
+    //        if (!in_array('ROLE_ADMIN', $author->getRoles(), true)) {
+    //            $qb->andWhere('bug.author = :author')
+    //                ->setParameter('author', $author);
+    //        }
+    //
+    //        if ($filters instanceof BugListFiltersDto) {
+    //            $qb = $this->applyFiltersToList($qb, $filters);
+    //        }
+    //
+    //        return $qb;
+    //    }
 
     /**
      * Query public bugs (for unauthenticated users).
      *
      * @param BugListFiltersDto|null $filters Filters
+     *
+     * @return QueryBuilder Result
      */
     public function queryPublicBugs(?BugListFiltersDto $filters = null): QueryBuilder
     {
@@ -119,6 +119,12 @@ class BugRepository extends ServiceEntityRepository
 
     /**
      * Find one bug by ID.
+     *
+     * @param int $id Id
+     *
+     * @return Bug|null Bug
+     *
+     * @throws NonUniqueResultException
      */
     public function findOneById(int $id): ?Bug
     {

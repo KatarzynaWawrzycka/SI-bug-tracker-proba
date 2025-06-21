@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * User service.
+ */
+
 namespace App\Service;
 
 use App\Entity\User;
@@ -8,17 +12,28 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class UserService.
+ */
 class UserService implements UserServiceInterface
 {
-    private UserRepository $userRepository;
-    private PaginatorInterface $paginator;
-
-    public function __construct(UserRepository $userRepository, PaginatorInterface $paginator)
+    /**
+     * Constructor.
+     *
+     * @param UserRepository     $userRepository User repository
+     * @param PaginatorInterface $paginator      Paginator interface
+     */
+    public function __construct(private readonly UserRepository $userRepository, private readonly PaginatorInterface $paginator)
     {
-        $this->userRepository = $userRepository;
-        $this->paginator = $paginator;
     }
 
+    /**
+     * User paginated list.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return PaginationInterface Paginated list
+     */
     public function getPaginatedUsers(Request $request): PaginationInterface
     {
         $allUsers = $this->userRepository->findAll();
@@ -36,6 +51,13 @@ class UserService implements UserServiceInterface
         );
     }
 
+    /**
+     * Finds user by email.
+     *
+     * @param string $email Email
+     *
+     * @return User|null User
+     */
     public function findOneByEmail(string $email): ?User
     {
         return $this->userRepository->findOneBy(['email' => $email]);

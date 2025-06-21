@@ -11,7 +11,6 @@ use App\Form\Type\UserEmailType;
 use App\Form\Type\UserPasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -35,8 +34,13 @@ class ProfileController extends AbstractController
     {
     }
 
+    /**
+     * Index action.
+     *
+     * @return Response HTTP response
+     */
     #[Route(name: 'profile', methods: ['GET'])]
-    public function profile(): Response
+    public function index(): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -49,7 +53,9 @@ class ProfileController extends AbstractController
     /**
      * Edit email action.
      *
-     * @param Request $request Request
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
      */
     #[Route('/email', name: 'edit_email', methods: ['GET', 'POST'])]
     public function editEmail(Request $request): Response
@@ -75,7 +81,9 @@ class ProfileController extends AbstractController
     /**
      * Edit password action.
      *
-     * @param Request $request Request
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
      */
     #[Route('/password', name: 'edit_password', methods: ['GET', 'POST'])]
     public function editPassword(Request $request): Response
@@ -88,21 +96,13 @@ class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
-            $confirmPassword = $form->get('confirmPassword')->getData();
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+            $user->setPassword($hashedPassword);
+            $this->entityManager->flush();
 
-            if (empty($plainPassword) || empty($confirmPassword)) {
-                $form->get('confirmPassword')->addError(new FormError(''));
-            } elseif ($plainPassword !== $confirmPassword) {
-                $form->get('confirmPassword')->addError(new FormError('Passwords don\'t match'));
-            } else {
-                $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
-                $this->entityManager->flush();
+            $this->addFlash('success', $this->translator->trans('message.password_updated'));
 
-                $this->addFlash('success', $this->translator->trans('message.password_updated'));
-
-                return $this->redirectToRoute('profile');
-            }
+            return $this->redirectToRoute('profile');
         }
 
         return $this->render('profile/edit_password.html.twig', [

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Comment service interface.
+ */
+
 namespace App\Service;
 
 use App\Entity\Bug;
@@ -13,11 +17,16 @@ interface CommentServiceInterface
     /**
      * Find comments by bug.
      *
-     * @param Bug $bug
-     *
      * @return Comment[]
      */
     public function findByBug(Bug $bug): array;
 
+    /**
+     * Finds comment by id.
+     *
+     * @param int $id Id
+     *
+     * @return Comment|null Comment
+     */
     public function findOneById(int $id): ?Comment;
 }

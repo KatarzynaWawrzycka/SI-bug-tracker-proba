@@ -55,12 +55,12 @@
             </div>
 
             <div class="comments-container w-50 ps-md-4" style="box-sizing: border-box;">
-                <h2 class="h5">{{ 'label.comments'|trans }}</h2>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a href="{{ path('bug_comment', {'id': bug.id}) }}" class="btn btn-primary btn-sm mb-3">
+                    <a href="{{ path('bug_comment', {'id': bug.id}) }}" class="btn btn-primary mb-3">
                         {{ 'action.add_comment'|trans }}
                     </a>
                 {% endif %}
+                <h2 class="h5">{{ 'label.comments'|trans }}</h2>
 
                 {% if comments is defined and comments|length > 0 %}
                     {% for comment in comments %}

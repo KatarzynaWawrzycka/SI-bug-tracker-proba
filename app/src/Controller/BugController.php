@@ -14,6 +14,7 @@ use App\Form\Type\BugType;
 use App\Form\Type\CommentType;
 use App\Resolver\BugListInputFiltersDtoResolver;
 use App\Security\Voter\BugVoter;
+use App\Security\Voter\CommentVoter;
 use App\Service\BugServiceInterface;
 use App\Service\CategoryServiceInterface;
 use App\Service\TagServiceInterface;
@@ -41,6 +42,8 @@ class BugController extends AbstractController
      * @param BugServiceInterface      $bugService               Bug service
      * @param TranslatorInterface      $translator               Translator
      * @param CategoryServiceInterface $categoryServiceInterface Category service interface
+     * @param TagServiceInterface      $tagServiceInterface      Tag service interface
+     * @param CommentServiceInterface  $commentServiceInterface  Comment service interface
      */
     public function __construct(private readonly BugServiceInterface $bugService, private readonly TranslatorInterface $translator, private readonly CategoryServiceInterface $categoryServiceInterface, private readonly TagServiceInterface $tagServiceInterface, private readonly CommentServiceInterface $commentServiceInterface)
     {
@@ -49,7 +52,7 @@ class BugController extends AbstractController
     /**
      * Index action.
      *
-     * @param BugListInputFiltersDto $filters
+     * @param BugListInputFiltersDto $filters Filters
      * @param int                    $page    Page number
      *
      * @return Response HTTP response
@@ -86,6 +89,15 @@ class BugController extends AbstractController
         ]);
     }
 
+    /**
+     * Comment action.
+     *
+     * @param Request                $request       HTTP request
+     * @param Bug                    $bug           Bug
+     * @param EntityManagerInterface $entityManager Entity manager
+     *
+     * @return Response HTTP response
+     */
     #[Route('/{id}/comment', name: 'bug_comment', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
     public function comment(Request $request, Bug $bug, EntityManagerInterface $entityManager): Response
     {
@@ -121,6 +133,16 @@ class BugController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit comment action.
+     *
+     * @param Request                $request       HTTP request
+     * @param int                    $bugId         Bug
+     * @param int                    $commentId     Comment
+     * @param EntityManagerInterface $entityManager Entity manager
+     *
+     * @return Response HTTP response
+     */
     #[Route('/{bugId}/comment/{commentId}/edit', name: 'bug_comment_edit', requirements: ['bugId' => '\d+', 'commentId' => '\d+'], methods: ['GET', 'POST'])]
     public function editComment(Request $request, int $bugId, int $commentId, EntityManagerInterface $entityManager): Response
     {
@@ -133,7 +155,7 @@ class BugController extends AbstractController
             return $this->redirectToRoute('bug_show', ['id' => $bugId]);
         }
 
-        if (!$this->isGranted('EDIT', $comment)) {
+        if (!$this->isGranted(CommentVoter::EDIT, $comment)) {
             $this->addFlash('warning', $this->translator->trans('access_denied'));
 
             return $this->redirectToRoute('bug_show', ['id' => $bugId]);
@@ -158,6 +180,16 @@ class BugController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete comment action.
+     *
+     * @param Request                $request       HTTP request
+     * @param int                    $bugId         Bug
+     * @param int                    $commentId     Comment
+     * @param EntityManagerInterface $entityManager Entity manager
+     *
+     * @return Response HTTP response
+     */
     #[Route('/{bugId}/comment/{commentId}/delete', name: 'bug_comment_delete', requirements: ['bugId' => '\d+', 'commentId' => '\d+'], methods: ['GET', 'DELETE'])]
     public function deleteComment(Request $request, int $bugId, int $commentId, EntityManagerInterface $entityManager): Response
     {
@@ -170,7 +202,7 @@ class BugController extends AbstractController
             return $this->redirectToRoute('bug_show', ['id' => $bugId]);
         }
 
-        if (!$this->isGranted('DELETE', $comment)) {
+        if (!$this->isGranted(CommentVoter::DELETE, $comment)) {
             $this->addFlash('warning', $this->translator->trans('access_denied'));
 
             return $this->redirectToRoute('bug_show', ['id' => $bugId]);
@@ -201,6 +233,14 @@ class BugController extends AbstractController
         ]);
     }
 
+    /**
+     * Close bug action.
+     *
+     * @param Request $request HTTP request
+     * @param Bug     $bug     Bug
+     *
+     * @return Response HTTP response
+     */
     #[Route('/{id}/close', name: 'bug_close', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST|PUT')]
     public function close(Request $request, Bug $bug): Response
     {
@@ -234,6 +274,14 @@ class BugController extends AbstractController
         ]);
     }
 
+    /**
+     * Archive closed bug action.
+     *
+     * @param Request $request HTTP request
+     * @param Bug     $bug     Bug
+     *
+     * @return Response HTTP response
+     */
     #[Route('/{id}/archive', name: 'bug_archive', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST', 'PUT'])]
     public function archive(Request $request, Bug $bug): Response
     {
@@ -270,7 +318,8 @@ class BugController extends AbstractController
     /**
      * Create action.
      *
-     * @param Request $request HTTP request
+     * @param Request              $request     HTTP request
+     * @param UserServiceInterface $userService User service interface
      *
      * @return Response HTTP response
      */
@@ -319,8 +368,9 @@ class BugController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request $request HTTP request
-     * @param Bug     $bug     Bug entity
+     * @param Request              $request     HTTP request
+     * @param Bug                  $bug         Bug entity
+     * @param UserServiceInterface $userService User service interface
      *
      * @return Response HTTP response
      */

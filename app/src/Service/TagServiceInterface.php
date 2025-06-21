@@ -46,5 +46,10 @@ interface TagServiceInterface
      */
     public function findOneByTitle(string $title): ?Tag;
 
+    /**
+     * Finds all tags.
+     *
+     * @return array of tags
+     */
     public function findAll(): array;
 }

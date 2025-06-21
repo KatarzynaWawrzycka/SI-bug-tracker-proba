@@ -67,18 +67,38 @@ class BugService implements BugServiceInterface
      * Find one Bug by ID.
      *
      * @param int $id Bug ID
+     *
+     * @return Bug|null Bug
+     *
+     * @throws NonUniqueResultException
      */
     public function findOneById(int $id): ?Bug
     {
         return $this->bugRepository->findOneById($id);
     }
 
+    /**
+     * @param Bug $bug Bug
+     *
+     * @return void Result
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function close(Bug $bug): void
     {
         $bug->setIsClosed(true);
         $this->bugRepository->save($bug);
     }
 
+    /**
+     * @param Bug $bug Bug
+     *
+     * @return void Result
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function archive(Bug $bug): void
     {
         $bug->setIsArchived(true);

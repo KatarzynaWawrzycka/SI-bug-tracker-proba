@@ -85,7 +85,7 @@ class BugType extends AbstractType
             'assignedToEmail',
             EmailType::class,
             [
-                'label' => 'label.assigned_to_email',
+                'label' => 'label.assigned_to',
                 'required' => false,
                 'mapped' => false,
             ]

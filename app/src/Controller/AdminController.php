@@ -1,10 +1,15 @@
 <?php
 
+/**
+ * Admin controller.
+ */
+
 namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\UserEmailType;
 use App\Form\Type\UserPasswordType;
+use App\Security\Voter\UserVoter;
 use App\Service\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,16 +18,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/user')]
+/**
+ * Class AdminController.
+ */
+#[\Symfony\Component\Routing\Attribute\Route('/user')]
 class AdminController extends AbstractController
 {
-    #[Route(name: 'user_index')]
+    /**
+     * Index action.
+     *
+     * @param Request              $request     HTTP request
+     * @param UserServiceInterface $userService User
+     *
+     * @return Response Response
+     */
+    #[\Symfony\Component\Routing\Attribute\Route(name: 'user_index')]
     public function index(Request $request, UserServiceInterface $userService): Response
     {
-        if (!$this->isGranted('USER_INDEX')) {
+        if (!$this->isGranted(UserVoter::INDEX)) {
             $this->addFlash('warning', 'Access denied.');
+
             return $this->redirectToRoute('bug_index');
         }
 
@@ -33,11 +49,19 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'user_show')]
+    /**
+     * Show action.
+     *
+     * @param User $user User
+     *
+     * @return Response HTTP response
+     */
+    #[\Symfony\Component\Routing\Attribute\Route('/{id}', name: 'user_show')]
     public function show(User $user): Response
     {
-        if (!$this->isGranted('USER_SHOW', $user)) {
+        if (!$this->isGranted(UserVoter::SHOW, $user)) {
             $this->addFlash('warning', 'Access denied.');
+
             return $this->redirectToRoute('bug_index');
         }
 
@@ -46,11 +70,21 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit-email', name: 'user_edit_email')]
+    /**
+     * Edit email action.
+     *
+     * @param User                   $user          User
+     * @param Request                $request       HTTP request
+     * @param EntityManagerInterface $entityManager Entity manager
+     *
+     * @return Response HTTP response
+     */
+    #[\Symfony\Component\Routing\Attribute\Route('/{id}/edit-email', name: 'user_edit_email')]
     public function editEmail(User $user, Request $request, EntityManagerInterface $entityManager): Response
     {
-        if (!$this->isGranted('USER_EDIT_EMAIL', $user)) {
+        if (!$this->isGranted(UserVoter::EDIT_EMAIL, $user)) {
             $this->addFlash('warning', 'Access denied.');
+
             return $this->redirectToRoute('bug_index');
         }
 
@@ -71,11 +105,22 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit-password', name: 'user_edit_password')]
+    /**
+     * Edit password action.
+     *
+     * @param User                        $user           User
+     * @param Request                     $request        HTTP request
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
+     * @param EntityManagerInterface      $entityManager  Entity manager
+     *
+     * @return Response HTTP response
+     */
+    #[\Symfony\Component\Routing\Attribute\Route('/{id}/edit-password', name: 'user_edit_password')]
     public function editPassword(User $user, Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
-        if (!$this->isGranted('USER_EDIT_PASSWORD', $user)) {
+        if (!$this->isGranted(UserVoter::EDIT_PASSWORD, $user)) {
             $this->addFlash('warning', 'Access denied.');
+
             return $this->redirectToRoute('bug_index');
         }
 

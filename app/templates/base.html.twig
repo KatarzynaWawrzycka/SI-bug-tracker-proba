@@ -16,13 +16,13 @@
 <header class="d-flex justify-content-end p-3 bg-light border-bottom">
     {% if app.user %}
         <div>
-            {{ 'Logged in as'|trans }}
-                <a href="{{ path('profile') }}"><strong>{{ app.user.email }}</strong></a>
+            {{ 'label.logged_in_as'|trans }}
+            <a href="{{ path('profile') }}"><strong>{{ app.user.email }}</strong></a>
             <a href="{{ path('app_logout') }}" class="btn btn-sm btn-outline-secondary ms-2">{{ 'action.logout'|trans }}</a>
         </div>
     {% else %}
-        <a href="{{ path('app_login') }}" class="btn btn-sm btn-primary">{{ 'action.sign_in'|trans }}</a>
-        <a href="{{ path('app_register') }}" class="btn btn-sm btn-primary">{{ 'action.sign_up'|trans }}</a>
+        <a href="{{ path('app_login') }}" class="btn btn-primary">{{ 'action.sign_in'|trans }}</a>
+        <a href="{{ path('app_register') }}" class="btn btn-primary ms-2">{{ 'action.sign_up'|trans }}</a>
     {% endif %}
 </header>
 

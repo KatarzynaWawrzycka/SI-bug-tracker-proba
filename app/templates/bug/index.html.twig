@@ -6,26 +6,25 @@
 
 {% block body %}
     <h1>{{ 'title.bug_list'|trans }}</h1>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <div>
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <a href="{{ path('bug_create') }}" class="btn btn-primary">
                 {{ 'action.create_new_bug'|trans }}
             </a>
-        </div>
-    {% endif %}
-    <div class="ms-auto">
-        <a href="{{ path('category_index') }}" class="btn btn-outline-secondary me-2">
+        {% endif %}
+        <a href="{{ path('category_index') }}" class="btn btn-outline-secondary">
             {{ 'label.categories'|trans }}
         </a>
         <a href="{{ path('tag_index') }}" class="btn btn-outline-secondary">
             {{ 'label.tags'|trans }}
         </a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('user_index') }}" class="btn btn-outline-secondary">
+                {{ 'label.users'|trans }}
+            </a>
+        {% endif %}
     </div>
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('user_index') }}" class="btn btn-outline-secondary me-2">
-            {{ 'label.users'|trans }}
-        </a>
-    {% endif %}
+
     <div class="d-flex flex-wrap gap-3 mb-4 mt-4">
         <form method="get" action="{{ path('bug_index') }}" style="width: 250px;">
             <div class="form-group">

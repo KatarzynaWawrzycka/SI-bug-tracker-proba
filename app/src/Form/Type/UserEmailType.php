@@ -20,8 +20,10 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class UserEmailType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder Builder
-     * @param array                $options Options
+     * Builds the form.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options Form options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -36,7 +38,9 @@ class UserEmailType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver Resolver
+     * Configures the options for this type.
+     *
+     * @param OptionsResolver $resolver The resolver for the options
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -45,6 +49,9 @@ class UserEmailType extends AbstractType
         ]);
     }
 
+    /**
+     * @return string The prefix of the template block name
+     */
     public function getBlockPrefix(): string
     {
         return 'edit_email';

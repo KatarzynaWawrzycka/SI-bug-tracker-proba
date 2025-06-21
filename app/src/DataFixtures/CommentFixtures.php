@@ -1,12 +1,22 @@
 <?php
 
+/**
+ * Comment fixtures.
+ */
+
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
+/**
+ * Class CommentFixtures.
+ */
 class CommentFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
+    /**
+     * Load data.
+     */
     public function loadData(): void
     {
         $this->createMany(150, 'comments', function (int $i) {
@@ -33,6 +43,9 @@ class CommentFixtures extends AbstractBaseFixtures implements DependentFixtureIn
         $this->manager->flush();
     }
 
+    /**
+     * @return string[] of dependencies
+     */
     public function getDependencies(): array
     {
         return [BugFixtures::class, UserFixtures::class];

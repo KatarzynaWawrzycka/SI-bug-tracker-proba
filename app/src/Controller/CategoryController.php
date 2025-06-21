@@ -37,7 +37,7 @@ class CategoryController extends AbstractController
     /**
      * Index action.
      *
-     * @param int $page
+     * @param int $page Page
      *
      * @return Response HTTP response
      */

@@ -30,10 +30,25 @@ final class BugVoter extends Voter
      */
     public const EDIT = 'BUG_EDIT';
 
+    /**
+     * Comment permission.
+     *
+     * @const string
+     */
     public const COMMENT = 'BUG_COMMENT';
 
+    /**
+     * Close permission.
+     *
+     * @const string
+     */
     public const CLOSE = 'BUG_CLOSE';
 
+    /**
+     * Archive permission.
+     *
+     * @const string
+     */
     public const ARCHIVE = 'BUG_ARCHIVE';
 
     /**
@@ -118,20 +133,52 @@ final class BugVoter extends Voter
         return $bug->getAuthor() === $user;
     }
 
+    /**
+     * Checks if user can comment bug.
+     *
+     * @param UserInterface|null $user User
+     *
+     * @return bool Result
+     */
     private function canComment(?UserInterface $user): bool
     {
         return $user instanceof UserInterface;
     }
 
+    /**
+     * Checks if user can close bug.
+     *
+     * @param Bug           $bug  Bug
+     * @param UserInterface $user User
+     *
+     * @return bool Result
+     */
     private function canClose(Bug $bug, UserInterface $user): bool
     {
         return $this->isAuthorOrAssigned($bug, $user);
     }
 
+    /**
+     * Checks if user can archive bug.
+     *
+     * @param Bug           $bug  Bug
+     * @param UserInterface $user User
+     *
+     * @return bool Result
+     */
     private function canArchive(Bug $bug, UserInterface $user): bool
     {
         return $this->isAuthorOrAssigned($bug, $user);
     }
+
+    /**
+     * Checks if user's relation to bug.
+     *
+     * @param Bug           $bug  Bug
+     * @param UserInterface $user User
+     *
+     * @return bool Result
+     */
     private function isAuthorOrAssigned(Bug $bug, UserInterface $user): bool
     {
         return $bug->getAuthor() === $user || $bug->getAssignedTo() === $user;
