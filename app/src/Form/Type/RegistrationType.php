@@ -13,8 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class RegistrationType.
@@ -37,10 +35,6 @@ class RegistrationType extends AbstractType
             'second_options' => ['label' => 'label.password2'],
             'invalid_message' => 'Passwords don\'t match',
             'mapped' => false,
-            'constraints' => [
-                new NotBlank(['message' => 'Please enter your password']),
-                new Length(['min' => 6, 'minMessage' => 'Your password must be at least 6v characters long']),
-            ],
         ]);
     }
 

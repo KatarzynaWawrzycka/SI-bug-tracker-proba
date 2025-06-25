@@ -13,8 +13,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class UserPasswordType.
@@ -35,14 +33,6 @@ class UserPasswordType extends AbstractType
             'required' => true,
             'mapped' => false,
             'attr' => ['autocomplete' => 'new-password'],
-            'constraints' => [
-                new NotBlank(['message' => 'form.password.not_blank']),
-                new Length([
-                    'min' => 6,
-                    'minMessage' => 'form.password.min_length',
-                    'max' => 4096,
-                ]),
-            ],
         ])
         ->add('confirmPassword', PasswordType::class, [
             'label' => 'label.confirm_password',
