@@ -221,10 +221,6 @@
         <source>action.back</source>
         <target>Powrót</target>
       </trans-unit>
-      <trans-unit id="title.admin_profile_edit">
-        <source>title.admin_profile_edit</source>
-        <target>Edycja danych profilu</target>
-      </trans-unit>
       <trans-unit id="label.email">
         <source>label.email</source>
         <target>email:</target>
